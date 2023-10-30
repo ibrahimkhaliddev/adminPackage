@@ -1,8 +1,8 @@
 <?php
+
 namespace Panelist\AdminPackage;
 
 use Illuminate\Support\ServiceProvider;
-
 
 class MyPackageServiceProvider extends ServiceProvider
 {
