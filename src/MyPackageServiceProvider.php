@@ -36,6 +36,20 @@ class MyPackageServiceProvider extends ServiceProvider
         $pattern = '/<\?php\s*/';
         $projectWebContents = preg_replace($pattern, "<?php\n\n" . $additionalLines, $projectWebContents, 1);
     
+        // Check for duplicate entries
+        $useStatements = [
+            'use App\Http\Controllers\HomeController;',
+            'use App\Http\Controllers\MenuController;',
+            'use App\Http\Controllers\SlackController;',
+            'use Illuminate\Support\Facades\Route;'
+        ];
+    
+        foreach ($useStatements as $useStatement) {
+            if (strpos($projectWebContents, $useStatement) === false) {
+                $projectWebContents = str_replace('<?php', $useStatement . "\n\n<?php", $projectWebContents);
+            }
+        }
+    
         $packageWebContents = str_replace('<?php', '', $packageWebContents); // Remove opening PHP tag
     
         if (strpos($projectWebContents, $packageWebContents) === false) {
@@ -49,5 +63,6 @@ class MyPackageServiceProvider extends ServiceProvider
             file_put_contents($projectWebPath, $projectWebContents);
         }
     }
+    
     
 }
