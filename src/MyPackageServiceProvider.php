@@ -64,12 +64,12 @@ class MyPackageServiceProvider extends ServiceProvider
             ' ',
         ];
         
-        // Ensure $linesToInsert are not already present in $originalFilteredLines
-        $linesToInsert = array_values(array_diff($linesToInsert, $originalFilteredLines));
+        $mergedLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
+
+        // Remove duplicate values from the merged array
+        $mergedLines = array_unique($mergedLines);
         
-        $resultLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
-        
-        $resultContent = implode("\n", $resultLines);
+        $resultContent = implode("\n", $mergedLines);
         
         file_put_contents($editedFilePath, $resultContent);
         file_put_contents($originalPath, $resultContent);
