@@ -27,7 +27,7 @@ class MyPackageServiceProvider extends ServiceProvider
     private function appendWebRoutes()
     {
         $projectWebPath = base_path('routes/web.php');
-        $packageWebContents = file_get_contents(__DIR__ . 'Routes/web.php');
+        $packageWebContents = file_get_contents(__DIR__ . '/Routes/web.php');
 
         $additionalLines = "\nuse App\Http\Controllers\SlackController;\n";
 
