@@ -19,11 +19,13 @@ class MyPackageServiceProvider extends ServiceProvider
         // Get the contents of the existing web.php file
         $existingWebPhpContents = file_get_contents(base_path('routes/web.php'));
 
-        // Prepend the additional lines at the top of the existing web.php file content
-        $updatedWebPhpContents = $additionalLines . $existingWebPhpContents;
+        // Check if the lines already exist at the top; if they don't, prepend the additional lines
+        if (strpos($existingWebPhpContents, $additionalLines) !== 0) {
+            $existingWebPhpContents = $additionalLines . $existingWebPhpContents;
+        }
 
         // Write the updated content back to the web.php file
-        file_put_contents(base_path('routes/web.php'), $updatedWebPhpContents);
+        file_put_contents(base_path('routes/web.php'), $existingWebPhpContents);
 
         $myWebPhpContents = file_get_contents(__DIR__ . '/Routes/web.php');
 
