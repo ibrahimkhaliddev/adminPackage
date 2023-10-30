@@ -51,20 +51,18 @@ class MyPackageServiceProvider extends ServiceProvider
             return strpos(trim($line), 'use') === 0;
         });
         
-        $linesToInsert = [
-            '<?php',
-            'use App\Http\Controllers\HomeController;',
-            'use App\Http\Controllers\MenuController;',
-        ];
+        // Ensure the first line is '<?php'
+        array_unshift($filteredLines, '<?php');
         
         // Merge the lines to insert, filtered lines, and the modified file contents
-        $resultLines = array_merge($linesToInsert, $filteredLines, explode("\n", $thepackageWeb));
+        $resultLines = array_merge($filteredLines, explode("\n", $thepackageWeb));
         
         // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
         
         // Write the updated content back to the file
         file_put_contents($editedFilePath, $resultContent);
+        
         
         
         
