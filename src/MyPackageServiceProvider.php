@@ -25,36 +25,35 @@ class MyPackageServiceProvider extends ServiceProvider
         $editedFilePath = __DIR__ . '/Routes/sample.php';
         $originalPath = base_path('routes/web.php');
 
-        // if (file_exists($filePath)) {
-            // Read the file
-            // $contents = file_get_contents($filePath);
 
-            // Lines to be removed
-            $linesToRemove = [
-                'use Illuminate\Support\Facades\Route;',
-                'use App\Http\Controllers\HomeController;',
-                'use App\Http\Controllers\MenuController;',
-            ];
-            $linesToInsert = [
-                '<?php',
-                'use App\Http\Controllers\HomeController;',
-                'use App\Http\Controllers\MenuController;',
-            ];
-            
-            // Read the original content
-            $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-            
-            // Filter out lines that start with 'use'
-            $filteredLines = array_filter($lines, function ($line) {
-                return strpos(trim($line), 'use') === 0;
-            });
-            
-            // Combine the lines to insert and the filtered lines
-            $resultLines = array_merge($linesToInsert, $filteredLines);
-            
-            // Write the updated content back to the file
-            file_put_contents($editedFilePath, implode("\n", $resultLines));
-            echo implode("\n", $filteredLines);
+        $linesToRemove = [
+            'use Illuminate\Support\Facades\Route;',
+            'use App\Http\Controllers\HomeController;',
+            'use App\Http\Controllers\MenuController;',
+        ];
+        $fileContents = file_get_contents($filePath);
+        $thepackageWeb = '';
+        foreach ($linesToRemove as $line) {
+            $thepackageWeb = str_replace($line, '', $fileContents);
+        }
+
+
+        $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $filteredLines = array_filter($lines, function ($line) {
+            return strpos(trim($line), 'use') === 0;
+        });
+        $linesToInsert = [
+            '<?php',
+            'use App\Http\Controllers\HomeController;',
+            'use App\Http\Controllers\MenuController;',
+        ];
+        $resultLines = array_merge($filteredLines, $linesToInsert, $thepackageWeb);
+
+
+
+        // Write the updated content back to the file
+        file_put_contents($editedFilePath, implode("\n", $resultLines));
+        echo implode("\n", $resultLines);
         //     $lines = explode("\n", $contents);
         //     $newContents = '';
         //     foreach ($lines as $line) {
