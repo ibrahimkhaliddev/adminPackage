@@ -8,7 +8,7 @@ class MyPackageServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        // ...
+        // Add any necessary bindings or services here
     }
 
     public function boot()
@@ -30,6 +30,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $packageWebContents = file_get_contents(__DIR__ . '/Routes/web.php');
 
         $additionalLines = "use App\Http\Controllers\SlackController;\nuse App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
+        $additionalLines = str_replace("\\", "\\\\", $additionalLines); // Escape backslashes
 
         $pattern = '/<\?php\s*/';
         $projectWebContents = preg_replace($pattern, "<?php\n\n" . $additionalLines, file_get_contents($projectWebPath), 1);
