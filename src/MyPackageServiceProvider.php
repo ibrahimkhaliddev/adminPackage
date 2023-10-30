@@ -64,7 +64,7 @@ class MyPackageServiceProvider extends ServiceProvider
             ' ',
         ];
         
-        $resultLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
+        $resultLines = array_merge($filteredLines, $originalFilteredLines, explode("\n", $thepackageWeb));
         
         $resultContent = implode("\n", $resultLines);
         
