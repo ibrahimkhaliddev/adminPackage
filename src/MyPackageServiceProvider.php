@@ -34,26 +34,26 @@ class MyPackageServiceProvider extends ServiceProvider
                 'use App\Http\Controllers\HomeController;',
                 'use App\Http\Controllers\MenuController;',
             ];
-            file_put_contents(
-                $editedFilePath,
-                implode("\n", [
-                    '<?php',
-                    'use App\Http\Controllers\HomeController;',
-                    'use App\Http\Controllers\MenuController;',
-                ])
-            );
-
-
-            $lines = file(base_path('routes/web.php'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
+            $linesToInsert = [
+                '<?php',
+                'use App\Http\Controllers\HomeController;',
+                'use App\Http\Controllers\MenuController;',
+            ];
+            
+            // Read the original content
+            $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            
+            // Filter out lines that start with 'use'
             $filteredLines = array_filter($lines, function ($line) {
-                return strpos(trim($line), 'use') === 0;
+                return strpos(trim($line), 'use') !== 0;
             });
+            
+            // Combine the lines to insert and the filtered lines
+            $resultLines = array_merge($linesToInsert, $filteredLines);
+            
+            // Write the updated content back to the file
+            file_put_contents($editedFilePath, implode("\n", $resultLines));
 
-            $resultString = implode("\n", $filteredLines);
-            file_put_contents($editedFilePath, $resultString);
-
-            // Remove lines containing specific content
             $lines = explode("\n", $contents);
             $newContents = '';
             foreach ($lines as $line) {
