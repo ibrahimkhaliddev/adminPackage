@@ -36,11 +36,22 @@ class MyPackageServiceProvider extends ServiceProvider
             ];
             file_put_contents($editedFilePath,
     implode("\n", [
+        '<?php',
         'use Illuminate\Support\Facades\Route;',
         'use App\Http\Controllers\HomeController;',
         'use App\Http\Controllers\MenuController;',
     ])
 );
+
+
+$lines = file(base_path('routes/web.php'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+$filteredLines = array_filter($lines, function($line) {
+    return strpos(trim($line), 'use') === 0;
+});
+
+$resultString = implode("\n", $filteredLines);
+echo $resultString;
 
             // Remove lines containing specific content
             $lines = explode("\n", $contents);
@@ -61,9 +72,9 @@ class MyPackageServiceProvider extends ServiceProvider
             // Write the updated content back to the file
             file_put_contents($filePath, $newContents);
 
-                echo $newContents;
+                // echo $newContents;
             // Display a success message
-            echo "Lines removed successfully.";
+            // echo "Lines removed successfully.";
         } else {
             // Handle the case when the file doesn't exist
             echo "File not found.";
