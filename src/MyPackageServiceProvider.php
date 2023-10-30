@@ -16,11 +16,8 @@ class MyPackageServiceProvider extends ServiceProvider
         // Get the contents of the my web.php file.
         $myWebPhpContents = file_get_contents(__DIR__ . '/Routes/web.php');
 
-        // Get the contents of the existing web.php file.
-        $existingWebPhpContents = file_get_contents(base_path('routes/web.php'));
-
         // Write the contents of the my web.php file to the existing web.php file.
-        file_put_contents(base_path('routes/web.php'), $myWebPhpContents, FILE_APPEND | LOCK_EX);
+        file_put_contents(base_path('routes/web.php'), $myWebPhpContents);
 
         // Publish the myCustomAdminPackage/layout.blade.php file to the resources/views/CustomAdminPackage/layout.blade.php file.
         $this->publishes([
