@@ -1,6 +1,5 @@
-<?php
 
-namespace Panelist\AdminPackage;
+<?php
 
 use Illuminate\Support\ServiceProvider;
 
@@ -13,7 +12,6 @@ class MyPackageServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
         $this->publishes([
             __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
         ], 'my-package-resources');
@@ -32,7 +30,7 @@ class MyPackageServiceProvider extends ServiceProvider
             $linesToRemove = [
                 'use Illuminate\Support\Facades\Route;',
                 'use App\Http\Controllers\HomeController;',
-                'use App\Http\Controllers\MenuController;'
+                'use App\Http\Controllers\MenuController;',
             ];
 
             // Remove lines containing specific content
@@ -56,8 +54,9 @@ class MyPackageServiceProvider extends ServiceProvider
 
             // Display a success message
             echo "Lines removed successfully.";
+        } else {
+            // Handle the case when the file doesn't exist
+            echo "File not found.";
+        }
     }
-    }
-    
-    
 }
