@@ -38,7 +38,6 @@ class MyPackageServiceProvider extends ServiceProvider
         }
         
         $thepackageWeb = $fileContents;
-        echo $thepackageWeb;
         
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $filteredLines = array_filter($lines, function ($line) {
@@ -51,17 +50,18 @@ class MyPackageServiceProvider extends ServiceProvider
             'use App\Http\Controllers\MenuController;',
         ];
         
-        $resultLines = array_merge($linesToInsert, $filteredLines);
+        $resultLines = array_merge($linesToInsert, $filteredLines, explode("\n", $thepackageWeb));
         $resultContent = implode("\n", $resultLines);
         
         file_put_contents($editedFilePath, $resultContent);
+        
         
 
 
 
         // Write the updated content back to the file
-        file_put_contents($editedFilePath, implode("\n", $resultLines));
-        echo implode("\n", $resultLines);
+        // file_put_contents($editedFilePath, implode("\n", $resultLines));
+        // echo implode("\n", $resultLines);
         //     $lines = explode("\n", $contents);
         //     $newContents = '';
         //     foreach ($lines as $line) {
