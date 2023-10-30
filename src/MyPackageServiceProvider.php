@@ -3,6 +3,7 @@
 namespace Panelist\AdminPackage;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\File;
 
 class MyPackageServiceProvider extends ServiceProvider
 {
