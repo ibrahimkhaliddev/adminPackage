@@ -64,12 +64,16 @@ class MyPackageServiceProvider extends ServiceProvider
             ' ',
         ];
         
-        $resultLines = array_merge($filteredLines, $originalFilteredLines, explode("\n", $thepackageWeb));
+        // Ensure $linesToInsert are not already present in $originalFilteredLines
+        $linesToInsert = array_diff($linesToInsert, $originalFilteredLines);
+        
+        $resultLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
         
         $resultContent = implode("\n", $resultLines);
         
         file_put_contents($editedFilePath, $resultContent);
         file_put_contents($originalPath, $resultContent);
+        
         
 
 
