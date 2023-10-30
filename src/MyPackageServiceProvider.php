@@ -27,27 +27,16 @@ class MyPackageServiceProvider extends ServiceProvider
     private function appendWebRoutes()
     {
         $projectWebPath = base_path('routes/web.php');
-        $packageWebPath = __DIR__ . '/Routes/web.php';
+        $packageWebContents = file_get_contents(__DIR__ . '/web.php');
 
-        $projectWebContents = file_get_contents($projectWebPath);
-        $packageWebContents = str_replace("<?php\n\n", '', file_get_contents($packageWebPath));
+        $additionalLines = "use App\Http\Controllers\SlackController;\nuse App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
 
-        $additionalLines = "use App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
+        $pattern = '/<\?php\s*/';
+        $projectWebContents = preg_replace($pattern, "<?php\n\n" . $additionalLines, file_get_contents($projectWebPath), 1);
 
-        if (strpos($projectWebContents, $additionalLines) === false) {
-            $projectWebContents = $additionalLines . $projectWebContents;
+        if (strpos($projectWebContents, $packageWebContents) === false) {
+            $projectWebContents .= $packageWebContents;
+            file_put_contents($projectWebPath, $projectWebContents);
         }
-
-        $slackControllerLine = "use App\Http\Controllers\SlackController;";
-        if (strpos($projectWebContents, $slackControllerLine) !== false) {
-            $projectWebContents = str_replace($slackControllerLine . "\n", '', $projectWebContents);
-            $projectWebContents = "<?php\n\n" . $slackControllerLine . "\n" . $projectWebContents;
-        }
-
-        $projectWebContents = trim($projectWebContents, "\n") . "\n\n";
-        $packageWebContents = trim($packageWebContents, "\n") . "\n";
-
-        $mergedWebContents = $projectWebContents . $packageWebContents;
-        file_put_contents($projectWebPath, $mergedWebContents);
     }
 }
