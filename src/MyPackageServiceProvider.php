@@ -40,18 +40,19 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $thepackageWeb = $fileContents;
 
-        // Remove the <?php tag and empty lines from the $thepackageWeb variable
         $thepackageWeb = preg_replace('/\s*<\?php\s*/', '', $thepackageWeb);
         $thepackageWeb = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $thepackageWeb);
 
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-
-        // Filter out lines that start with 'use'
         $filteredLines = array_filter($lines, function ($line) {
             return strpos(trim($line), 'use') === 0;
         });
-
         array_unshift($filteredLines, '<?php');
+
+        $originalRoutes = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $originalFilteredLines = array_filter($originalRoutes, function ($originalRoutes) {
+            return strpos(trim($originalRoutes), 'use') !== 0;
+        });
 
         $linesToInsert = [
             'use App\Http\Controllers\HomeController;',
@@ -60,7 +61,7 @@ class MyPackageServiceProvider extends ServiceProvider
         ];
 
         // Merge the lines to insert, filtered lines, and the modified file contents
-        $resultLines = array_merge($filteredLines, $linesToInsert, explode("\n", $thepackageWeb));
+        $resultLines = array_merge($filteredLines, $linesToInsert, explode("\n", $originalFilteredLines), explode("\n", $thepackageWeb));
 
         // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
