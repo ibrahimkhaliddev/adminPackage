@@ -17,7 +17,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
-            __DIR__ . '/Routes/web.php' => base_path('routes/'),
+            __DIR__ . '/Routes/web.php' => base_path('routes/web.php'),
         ], 'my-package-resources');
     }
     
