@@ -24,6 +24,9 @@ class MyPackageServiceProvider extends ServiceProvider
             $existingWebPhpContents = $additionalLines . $existingWebPhpContents;
         }
 
+        // Replace the duplicate 'use Illuminate\Support\Facades\Route;' with an empty string
+        $existingWebPhpContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', $existingWebPhpContents);
+
         // Write the updated content back to the web.php file
         file_put_contents(base_path('routes/web.php'), $existingWebPhpContents);
 
