@@ -34,7 +34,11 @@ class MyPackageServiceProvider extends ServiceProvider
                 'use App\Http\Controllers\HomeController;',
                 'use App\Http\Controllers\MenuController;',
             ];
-            file_put_contents($editedFilePath, $linesToRemove);
+            file_put_contents($editedFilePath,
+            ['use Illuminate\Support\Facades\Route;\n',
+            'use App\Http\Controllers\HomeController;\n',
+            'use App\Http\Controllers\MenuController;\n',]
+            );
             // Remove lines containing specific content
             $lines = explode("\n", $contents);
             $newContents = '';
