@@ -33,7 +33,6 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $fileContents = file_get_contents($filePath);
 
-        // Remove specific lines from the file
         foreach ($linesToRemove as $line) {
             $fileContents = str_replace($line, '', $fileContents);
         }
@@ -54,7 +53,6 @@ class MyPackageServiceProvider extends ServiceProvider
             return strpos(trim($originalRoute), 'use') !== 0;
         });
 
-        // Remove '<?php' and empty lines from $originalFilteredLines
         $originalFilteredLines = array_filter($originalFilteredLines, function ($line) {
             return $line !== '<?php' && !empty(trim($line));
         });
@@ -65,14 +63,12 @@ class MyPackageServiceProvider extends ServiceProvider
             ' ',
         ];
 
-        // Merge the lines to insert, filtered lines, and the modified file contents
         $resultLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
 
-        // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
 
-        // Write the updated content back to the file
         file_put_contents($editedFilePath, $resultContent);
+        file_put_contents($originalPath, file_get_contents($editedFilePath));
 
 
 
