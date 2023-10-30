@@ -14,7 +14,7 @@ class MyPackageServiceProvider extends ServiceProvider
     public function boot()
     {
         // Define the lines that need to be added at the top
-        $additionalLines = "use Illuminate\Support\Facades\Route;\nuse App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n\n";
+        $additionalLines = "use App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n\n";
 
         // Get the contents of the existing web.php file
         $existingWebPhpContents = file_get_contents(base_path('routes/web.php'));
@@ -27,7 +27,8 @@ class MyPackageServiceProvider extends ServiceProvider
         // Write the updated content back to the web.php file
         file_put_contents(base_path('routes/web.php'), $existingWebPhpContents);
 
-        $myWebPhpContents = file_get_contents(__DIR__ . '/Routes/web.php');
+        // Remove the duplicate 'use Illuminate\Support\Facades\Route;'
+        $myWebPhpContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', file_get_contents(__DIR__ . '/Routes/web.php'));
 
         // Append the contents of the package's web.php file to the main project's web.php file
         file_put_contents(base_path('routes/web.php'), $myWebPhpContents, FILE_APPEND | LOCK_EX);
