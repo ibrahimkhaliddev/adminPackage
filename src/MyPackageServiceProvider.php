@@ -24,9 +24,9 @@ class MyPackageServiceProvider extends ServiceProvider
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
 
-        if (file_exists($filePath)) {
+        // if (file_exists($filePath)) {
             // Read the file
-            $contents = file_get_contents($filePath);
+            // $contents = file_get_contents($filePath);
 
             // Lines to be removed
             $linesToRemove = [
@@ -53,31 +53,31 @@ class MyPackageServiceProvider extends ServiceProvider
             
             // Write the updated content back to the file
             file_put_contents($editedFilePath, implode("\n", $resultLines));
+            echo implode("\n", $resultLines);
+        //     $lines = explode("\n", $contents);
+        //     $newContents = '';
+        //     foreach ($lines as $line) {
+        //         $shouldRemove = false;
+        //         foreach ($linesToRemove as $lineToRemove) {
+        //             if (strpos(trim($line), trim($lineToRemove)) !== false) {
+        //                 $shouldRemove = true;
+        //                 break;
+        //             }
+        //         }
+        //         if (!$shouldRemove) {
+        //             $newContents .= $line . "\n";
+        //         }
+        //     }
 
-            $lines = explode("\n", $contents);
-            $newContents = '';
-            foreach ($lines as $line) {
-                $shouldRemove = false;
-                foreach ($linesToRemove as $lineToRemove) {
-                    if (strpos(trim($line), trim($lineToRemove)) !== false) {
-                        $shouldRemove = true;
-                        break;
-                    }
-                }
-                if (!$shouldRemove) {
-                    $newContents .= $line . "\n";
-                }
-            }
+        //     // Write the updated content back to the file
+        //     file_put_contents($filePath, $newContents);
 
-            // Write the updated content back to the file
-            file_put_contents($filePath, $newContents);
-
-            // echo $newContents;
-            // Display a success message
-            // echo "Lines removed successfully.";
-        } else {
-            // Handle the case when the file doesn't exist
-            echo "File not found.";
-        }
+        //     // echo $newContents;
+        //     // Display a success message
+        //     // echo "Lines removed successfully.";
+        // } else {
+        //     // Handle the case when the file doesn't exist
+        //     echo "File not found.";
+        // }
     }
 }
