@@ -36,8 +36,16 @@ class MyPackageServiceProvider extends ServiceProvider
         $pattern = '/<\?php\s*/';
         $projectWebContents = preg_replace($pattern, "<?php\n\n" . $additionalLines, $projectWebContents, 1);
 
+        $packageWebContents = str_replace('<?php', '', $packageWebContents); // Remove opening PHP tag
+
         if (strpos($projectWebContents, $packageWebContents) === false) {
+            // Add new route group with proper formatting
+            $packageWebContents = "\nRoute::middleware(['auth'])->group(function () {\n" . $packageWebContents . "\n});";
+
+            // Append the package's routes
             $projectWebContents .= $packageWebContents;
+
+            // Write the updated content back to the file
             file_put_contents($projectWebPath, $projectWebContents);
         }
     }
