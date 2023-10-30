@@ -24,30 +24,37 @@ class MyPackageServiceProvider extends ServiceProvider
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
         $originalPath = base_path('routes/web.php');
-
-
+        
         $linesToRemove = [
             'use Illuminate\Support\Facades\Route;',
             'use App\Http\Controllers\HomeController;',
             'use App\Http\Controllers\MenuController;',
         ];
+        
         $fileContents = file_get_contents($filePath);
-        $thepackageWeb = '';
+        
         foreach ($linesToRemove as $line) {
-            $thepackageWeb = str_replace($line, '', $fileContents);
+            $fileContents = str_replace($line, '', $fileContents);
         }
-
-
+        
+        $thepackageWeb = $fileContents;
+        
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $filteredLines = array_filter($lines, function ($line) {
             return strpos(trim($line), 'use') === 0;
         });
+        
         $linesToInsert = [
             '<?php',
             'use App\Http\Controllers\HomeController;',
             'use App\Http\Controllers\MenuController;',
         ];
-        $resultLines = array_merge($filteredLines, $linesToInsert, $thepackageWeb);
+        
+        $resultLines = array_merge($filteredLines, $linesToInsert);
+        $resultContent = implode("\n", $resultLines);
+        
+        file_put_contents($editedFilePath, $resultContent);
+        
 
 
 
