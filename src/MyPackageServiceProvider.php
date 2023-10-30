@@ -23,6 +23,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
+        $originalPath = base_path('routes/web.php');
 
         // if (file_exists($filePath)) {
             // Read the file
