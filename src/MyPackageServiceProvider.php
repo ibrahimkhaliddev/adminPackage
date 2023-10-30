@@ -27,20 +27,19 @@ class MyPackageServiceProvider extends ServiceProvider
     private function appendWebRoutes()
     {
         $projectWebPath = base_path('routes/web.php');
-        $packageWebContents = file_get_contents(__DIR__ . '/Routes/web.php');
+        $packageWebContents = file_get_contents(__DIR__ . 'Routes/web.php');
 
-        $additionalLines = "use App\Http\Controllers\SlackController;\nuse App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
-        $additionalLines = str_replace("\\", "\\\\", $additionalLines); // Escape backslashes
+        $additionalLines = "\nuse App\Http\Controllers\SlackController;\n";
 
         $projectWebContents = file_get_contents($projectWebPath);
-        $pattern = '/<\?php\s*/';
-        $projectWebContents = preg_replace($pattern, "<?php\n\n" . $additionalLines, $projectWebContents, 1);
+        $pattern = '/<\?php/';
+        $projectWebContents = preg_replace($pattern, "<?php" . $additionalLines, $projectWebContents, 1);
 
         $packageWebContents = str_replace('<?php', '', $packageWebContents); // Remove opening PHP tag
 
         if (strpos($projectWebContents, $packageWebContents) === false) {
             // Add new route group with proper formatting
-            $packageWebContents = "\nRoute::middleware(['auth'])->group(function () {" . $packageWebContents . "});\n";
+            $packageWebContents = str_replace('Route::middleware', "\n\nRoute::middleware", $packageWebContents);
 
             // Append the package's routes
             $projectWebContents .= $packageWebContents;
