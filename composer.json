@@ -1,0 +1,32 @@
+{
+    "name": "panelist/admin-package",
+    "autoload": {
+        "psr-4": {
+            "Panelist\\AdminPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MianIbrahimKhalid",
+            "email": "ibrahimkhalid.chs@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Panelist\\AdminPackage\\MyPackageServiceProvider"
+            ]
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/MianIbrahimKhalid/myCustomAdminPackage"
+        }
+    ]
+}
