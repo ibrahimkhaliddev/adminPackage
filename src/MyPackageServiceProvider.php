@@ -16,7 +16,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->appendWebRoutes();
 
         $this->publishes([
-            __DIR__ . '/../resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
+            __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
         ], 'my-package-resources');
 
         $this->publishes([
@@ -27,7 +27,7 @@ class MyPackageServiceProvider extends ServiceProvider
     private function appendWebRoutes()
     {
         $projectWebPath = base_path('routes/web.php');
-        $packageWebContents = file_get_contents(__DIR__ . '/../Routes/web.php');
+        $packageWebContents = file_get_contents(__DIR__ . '/Routes/web.php');
 
         $additionalLines = "use App\Http\Controllers\SlackController;\nuse App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
         $additionalLines = str_replace("\\", "\\\\", $additionalLines); // Escape backslashes
