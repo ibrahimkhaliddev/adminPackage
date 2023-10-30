@@ -50,7 +50,7 @@ class MyPackageServiceProvider extends ServiceProvider
             'use App\Http\Controllers\MenuController;',
         ];
         
-        $resultLines = array_merge($filteredLines, $linesToInsert);
+        $resultLines = array_merge($linesToInsert, $filteredLines);
         $resultContent = implode("\n", $resultLines);
         
         file_put_contents($editedFilePath, $resultContent);
