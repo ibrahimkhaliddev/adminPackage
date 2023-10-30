@@ -38,6 +38,11 @@ class MyPackageServiceProvider extends ServiceProvider
             $projectWebContents = $additionalLines . $projectWebContents;
         }
 
+        if (strpos($projectWebContents, "use App\Http\Controllers\SlackController;") !== false) {
+            $projectWebContents = str_replace("use App\Http\Controllers\SlackController;\n", '', $projectWebContents);
+            $projectWebContents = str_replace("<?php\n\n", "<?php\n\nuse App\Http\Controllers\SlackController;\n", $projectWebContents);
+        }
+
         if (strpos($projectWebContents, $packageWebContents) === false) {
             $projectWebContents .= $packageWebContents;
             file_put_contents($projectWebPath, $projectWebContents);
