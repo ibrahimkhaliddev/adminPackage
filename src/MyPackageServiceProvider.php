@@ -40,7 +40,7 @@ class MyPackageServiceProvider extends ServiceProvider
             foreach ($lines as $line) {
                 $shouldRemove = false;
                 foreach ($linesToRemove as $lineToRemove) {
-                    if (strpos($line, $lineToRemove) !== false) {
+                    if (strpos(trim($line), trim($lineToRemove)) !== false) {
                         $shouldRemove = true;
                         break;
                     }
@@ -53,6 +53,7 @@ class MyPackageServiceProvider extends ServiceProvider
             // Write the updated content back to the file
             file_put_contents($filePath, $newContents);
 
+                echo $newContents;
             // Display a success message
             echo "Lines removed successfully.";
         } else {
