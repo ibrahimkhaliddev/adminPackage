@@ -40,6 +40,10 @@ class MyPackageServiceProvider extends ServiceProvider
         
         $thepackageWeb = $fileContents;
         
+        // Remove the <?php tag and empty lines from the $thepackageWeb variable
+        $thepackageWeb = preg_replace('/\s*<\?php\s*/', '', $thepackageWeb);
+        $thepackageWeb = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $thepackageWeb);
+        
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         
         // Filter out lines that start with 'use'
@@ -61,6 +65,7 @@ class MyPackageServiceProvider extends ServiceProvider
         
         // Write the updated content back to the file
         file_put_contents($editedFilePath, $resultContent);
+        
         
         
         
