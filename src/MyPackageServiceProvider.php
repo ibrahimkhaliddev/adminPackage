@@ -42,7 +42,7 @@ class MyPackageServiceProvider extends ServiceProvider
             ];
             
             // Read the original content
-            $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
             
             // Filter out lines that start with 'use'
             $filteredLines = array_filter($lines, function ($line) {
