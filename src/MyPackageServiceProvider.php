@@ -34,22 +34,23 @@ class MyPackageServiceProvider extends ServiceProvider
                 'use App\Http\Controllers\HomeController;',
                 'use App\Http\Controllers\MenuController;',
             ];
-            file_put_contents($editedFilePath,
-    implode("\n", [
-        '<?php',
-        'use App\Http\Controllers\HomeController;',
-        'use App\Http\Controllers\MenuController;',
-    ])
-);
+            file_put_contents(
+                $editedFilePath,
+                implode("\n", [
+                    '<?php',
+                    'use App\Http\Controllers\HomeController;',
+                    'use App\Http\Controllers\MenuController;',
+                ])
+            );
 
 
-$lines = file(base_path('routes/web.php'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            $lines = file(base_path('routes/web.php'), FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
 
-$filteredLines = array_filter($lines, function($line) {
-    return strpos(trim($line), 'use') === 0;
-});
+            $filteredLines = array_filter($lines, function ($line) {
+                return strpos(trim($line), 'use') === 0;
+            });
 
-$resultString = implode("\n", $filteredLines);
+            $resultString = implode("\n", $filteredLines);
             file_put_contents($editedFilePath, $resultString);
 
             // Remove lines containing specific content
@@ -71,7 +72,7 @@ $resultString = implode("\n", $filteredLines);
             // Write the updated content back to the file
             file_put_contents($filePath, $newContents);
 
-                // echo $newContents;
+            // echo $newContents;
             // Display a success message
             // echo "Lines removed successfully.";
         } else {
