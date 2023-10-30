@@ -30,11 +30,11 @@ class MyPackageServiceProvider extends ServiceProvider
         // Remove the duplicate 'use Illuminate\Support\Facades\Route;'
         $myWebPhpContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', file_get_contents(__DIR__ . '/Routes/web.php'));
 
-        // Remove the specified lines from the package's web.php contents
-        $myWebPhpContents = str_replace(["use App\Http\Controllers\HomeController;\n", "use App\Http\Controllers\MenuController;\n"], '', $myWebPhpContents);
-
-        // Append the contents of the package's web.php file to the main project's web.php file
-        file_put_contents(base_path('routes/web.php'), $myWebPhpContents, FILE_APPEND | LOCK_EX);
+        // Check if the package's web.php content already exists in the project's web.php file
+        if (strpos($existingWebPhpContents, $myWebPhpContents) === false) {
+            // Append the contents of the package's web.php file to the main project's web.php file
+            file_put_contents(base_path('routes/web.php'), $myWebPhpContents, FILE_APPEND | LOCK_EX);
+        }
 
         $this->publishes([
             __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
