@@ -59,7 +59,7 @@ class MyPackageServiceProvider extends ServiceProvider
         ];
         
         // Merge the lines to insert, filtered lines, and the modified file contents
-        $resultLines = array_merge($linesToInsert, $filteredLines, explode("\n", $thepackageWeb));
+        $resultLines = array_merge($filteredLines, $linesToInsert, explode("\n", $thepackageWeb));
         
         // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
