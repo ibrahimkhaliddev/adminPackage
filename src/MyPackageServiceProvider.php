@@ -37,7 +37,6 @@ class MyPackageServiceProvider extends ServiceProvider
             file_put_contents($editedFilePath,
     implode("\n", [
         '<?php',
-        'use Illuminate\Support\Facades\Route;',
         'use App\Http\Controllers\HomeController;',
         'use App\Http\Controllers\MenuController;',
     ])
@@ -51,7 +50,7 @@ $filteredLines = array_filter($lines, function($line) {
 });
 
 $resultString = implode("\n", $filteredLines);
-echo $resultString;
+            file_put_contents($editedFilePath, $resultString);
 
             // Remove lines containing specific content
             $lines = explode("\n", $contents);
