@@ -3,7 +3,6 @@
 namespace Panelist\AdminPackage;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\File;
 
 class MyPackageServiceProvider extends ServiceProvider
 {
@@ -23,7 +22,7 @@ class MyPackageServiceProvider extends ServiceProvider
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
         ], 'my-package-resources');
 
-        $contents = File::get(__DIR__ . '/Routes/web.php');
+        $contents = file_get_contents(__DIR__ . '/Routes/web.php');
 
             // Extract lines containing specific content
             $specificLines = [];
