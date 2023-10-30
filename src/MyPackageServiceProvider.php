@@ -15,8 +15,9 @@ class MyPackageServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../../config/MyCustomPackage.php' => config_path('MyCustomPackage.php'),
-            __DIR__ . '/../../resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/myCustomAdminPackage/layout.blade.php'),
-        ]);
+            __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
+            __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
+        ], 'my-package-resources');
     }
+    
 }
