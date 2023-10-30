@@ -50,19 +50,23 @@ class MyPackageServiceProvider extends ServiceProvider
         $filteredLines = array_filter($lines, function ($line) {
             return strpos(trim($line), 'use') === 0;
         });
-        
-        // Ensure the first line is '<?php'
+
         array_unshift($filteredLines, '<?php');
         
+        $linesToInsert = [
+            '<?php',
+            'use App\Http\Controllers\HomeController;',
+            'use App\Http\Controllers\MenuController;',
+        ];
+        
         // Merge the lines to insert, filtered lines, and the modified file contents
-        $resultLines = array_merge($filteredLines, explode("\n", $thepackageWeb));
+        $resultLines = array_merge($linesToInsert, $filteredLines, explode("\n", $thepackageWeb));
         
         // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
         
         // Write the updated content back to the file
         file_put_contents($editedFilePath, $resultContent);
-        
         
         
         
