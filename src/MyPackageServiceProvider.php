@@ -22,6 +22,7 @@ class MyPackageServiceProvider extends ServiceProvider
         ], 'my-package-resources');
 
         $filePath = __DIR__ . '/Routes/web.php';
+        $editedFilePath = __DIR__ . '/Routes/sample.php';
 
         if (file_exists($filePath)) {
             // Read the file
@@ -33,7 +34,7 @@ class MyPackageServiceProvider extends ServiceProvider
                 'use App\Http\Controllers\HomeController;',
                 'use App\Http\Controllers\MenuController;',
             ];
-
+            file_put_contents($editedFilePath, $linesToRemove);
             // Remove lines containing specific content
             $lines = explode("\n", $contents);
             $newContents = '';
