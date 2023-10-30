@@ -32,15 +32,16 @@ class MyPackageServiceProvider extends ServiceProvider
         $projectWebContents = file_get_contents($projectWebPath);
         $packageWebContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', file_get_contents($packageWebPath));
 
-        $additionalLines = "use App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n\n";
+        $additionalLines = "use App\Http\Controllers\HomeController;\nuse App\Http\Controllers\MenuController;\n";
 
-        if (strpos($projectWebContents, $additionalLines) !== 0) {
+        if (strpos($projectWebContents, $additionalLines) === false) {
             $projectWebContents = $additionalLines . $projectWebContents;
         }
 
-        if (strpos($projectWebContents, "use App\Http\Controllers\SlackController;") !== false) {
-            $projectWebContents = str_replace("use App\Http\Controllers\SlackController;\n", '', $projectWebContents);
-            $projectWebContents = str_replace("<?php\n\n", "<?php\n\nuse App\Http\Controllers\SlackController;\n", $projectWebContents);
+        $slackControllerLine = "use App\Http\Controllers\SlackController;";
+        if (strpos($projectWebContents, $slackControllerLine) !== false) {
+            $projectWebContents = str_replace($slackControllerLine . "\n", '', $projectWebContents);
+            $projectWebContents = preg_replace("/<\?php\n+/", "<?php\n\n" . $slackControllerLine . "\n", $projectWebContents, 1);
         }
 
         if (strpos($projectWebContents, $packageWebContents) === false) {
