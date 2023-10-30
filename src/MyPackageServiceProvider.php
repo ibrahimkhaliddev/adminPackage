@@ -45,7 +45,7 @@ class MyPackageServiceProvider extends ServiceProvider
             
             // Filter out lines that start with 'use'
             $filteredLines = array_filter($lines, function ($line) {
-                return strpos(trim($line), 'use') !== 0;
+                return strpos(trim($line), 'use') === 0;
             });
             
             // Combine the lines to insert and the filtered lines
