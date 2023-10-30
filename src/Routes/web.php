@@ -40,4 +40,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('user-role', [MenuController::class, 'roleSetup'])->name('roleSetup');
     Route::post('role-update', [MenuController::class, 'roleUpdate'])->name('roleUpdate');
-    Route::get('get-user-menu-permissions/{id}', [MenuController::class, 'getSingleUserMenuPermssion'])->name('getSingleUserMenuPermssion');});
+    Route::get('get-user-menu-permissions/{id}', [MenuController::class, 'getSingleUserMenuPermssion'])->name('getSingleUserMenuPermssion');
+
+});
