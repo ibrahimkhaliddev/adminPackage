@@ -44,9 +44,10 @@ class MyPackageServiceProvider extends ServiceProvider
             $projectWebContents = preg_replace("/<\?php\n+/", "<?php\n\n" . $slackControllerLine . "\n", $projectWebContents, 1);
         }
 
-        if (strpos($projectWebContents, $packageWebContents) === false) {
-            $projectWebContents .= $packageWebContents;
-            file_put_contents($projectWebPath, $projectWebContents);
-        }
+        $projectWebContents = trim($projectWebContents, "\n") . "\n\n";
+        $packageWebContents = trim($packageWebContents, "\n") . "\n";
+
+        $mergedWebContents = $projectWebContents . $packageWebContents;
+        file_put_contents($projectWebPath, $mergedWebContents);
     }
 }
