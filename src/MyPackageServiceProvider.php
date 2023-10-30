@@ -22,7 +22,30 @@ class MyPackageServiceProvider extends ServiceProvider
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
         ], 'my-package-resources');
 
-        $this->loadRoutesFrom(__DIR__.'/Routes/web.php');
+        $contents = File::get(__DIR__ . '/Routes/web.php');
+
+            // Extract lines containing specific content
+            $specificLines = [];
+            $searchLines = [
+                'use Illuminate\Support\Facades\Route;',
+                'use App\Http\Controllers\HomeController;',
+                'use App\Http\Controllers\MenuController;'
+            ];
+
+            $lines = explode("\n", $contents);
+
+            foreach ($lines as $line) {
+                foreach ($searchLines as $searchLine) {
+                    if (strpos($line, $searchLine) !== false) {
+                        $specificLines[] = $line;
+                    }
+                }
+            }
+
+            // Display or process the extracted content
+            foreach ($specificLines as $specificLine) {
+                echo $specificLine . "\n";
+            }
     }
 
     
