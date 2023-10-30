@@ -40,7 +40,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         if (strpos($projectWebContents, $packageWebContents) === false) {
             // Add new route group with proper formatting
-            $packageWebContents = "\nRoute::middleware(['auth'])->group(function () {\n" . $packageWebContents . "\n});";
+            $packageWebContents = "\nRoute::middleware(['auth'])->group(function () {" . $packageWebContents . "});\n";
 
             // Append the package's routes
             $projectWebContents .= $packageWebContents;
