@@ -54,7 +54,6 @@ class MyPackageServiceProvider extends ServiceProvider
         array_unshift($filteredLines, '<?php');
         
         $linesToInsert = [
-            '<?php',
             'use App\Http\Controllers\HomeController;',
             'use App\Http\Controllers\MenuController;',
         ];
