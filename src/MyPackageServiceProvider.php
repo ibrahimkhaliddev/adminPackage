@@ -38,6 +38,7 @@ class MyPackageServiceProvider extends ServiceProvider
         }
         
         $thepackageWeb = $fileContents;
+        echo $thepackageWeb;
         
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $filteredLines = array_filter($lines, function ($line) {
