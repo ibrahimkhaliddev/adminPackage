@@ -24,14 +24,14 @@ class MyPackageServiceProvider extends ServiceProvider
             $existingWebPhpContents = $additionalLines . $existingWebPhpContents;
         }
 
-        // Replace the duplicate 'use Illuminate\Support\Facades\Route;' with an empty string
-        $existingWebPhpContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', $existingWebPhpContents);
-
         // Write the updated content back to the web.php file
         file_put_contents(base_path('routes/web.php'), $existingWebPhpContents);
 
         // Remove the duplicate 'use Illuminate\Support\Facades\Route;'
         $myWebPhpContents = str_replace("use Illuminate\Support\Facades\Route;\n", '', file_get_contents(__DIR__ . '/Routes/web.php'));
+
+        // Remove the specified lines from the package's web.php contents
+        $myWebPhpContents = str_replace(["use App\Http\Controllers\HomeController;\n", "use App\Http\Controllers\MenuController;\n"], '', $myWebPhpContents);
 
         // Append the contents of the package's web.php file to the main project's web.php file
         file_put_contents(base_path('routes/web.php'), $myWebPhpContents, FILE_APPEND | LOCK_EX);
