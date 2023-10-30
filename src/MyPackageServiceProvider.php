@@ -53,7 +53,7 @@ class MyPackageServiceProvider extends ServiceProvider
             
             // Write the updated content back to the file
             file_put_contents($editedFilePath, implode("\n", $resultLines));
-            echo implode("\n", $resultLines);
+            echo implode("\n", $filteredLines);
         //     $lines = explode("\n", $contents);
         //     $newContents = '';
         //     foreach ($lines as $line) {
