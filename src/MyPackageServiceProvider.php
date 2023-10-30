@@ -65,7 +65,7 @@ class MyPackageServiceProvider extends ServiceProvider
         ];
         
         // Ensure $linesToInsert are not already present in $originalFilteredLines
-        $linesToInsert = array_diff($linesToInsert, $originalFilteredLines);
+        $linesToInsert = array_diff($linesToInsert, $thepackageWeb);
         
         $resultLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
         
