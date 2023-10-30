@@ -33,6 +33,7 @@ class MyPackageServiceProvider extends ServiceProvider
         
         $fileContents = file_get_contents($filePath);
         
+        // Remove specific lines from the file
         foreach ($linesToRemove as $line) {
             $fileContents = str_replace($line, '', $fileContents);
         }
@@ -40,6 +41,8 @@ class MyPackageServiceProvider extends ServiceProvider
         $thepackageWeb = $fileContents;
         
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        
+        // Filter out lines that start with 'use'
         $filteredLines = array_filter($lines, function ($line) {
             return strpos(trim($line), 'use') === 0;
         });
@@ -50,10 +53,15 @@ class MyPackageServiceProvider extends ServiceProvider
             'use App\Http\Controllers\MenuController;',
         ];
         
+        // Merge the lines to insert, filtered lines, and the modified file contents
         $resultLines = array_merge($linesToInsert, $filteredLines, explode("\n", $thepackageWeb));
+        
+        // Combine the lines into a single string
         $resultContent = implode("\n", $resultLines);
         
+        // Write the updated content back to the file
         file_put_contents($editedFilePath, $resultContent);
+        
         
         
 
