@@ -64,14 +64,14 @@ class MyPackageServiceProvider extends ServiceProvider
             ' ',
         ];
         
-        // Add '});' to the array
-        $linesToInsert[] = '});';
-        
         $mergedLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
         
         $mergedLines = array_unique($mergedLines);
         
         $resultContent = implode("\n", $mergedLines);
+        
+        // Append '});' at the end of the file content
+        $resultContent .= "\n});";
         
         file_put_contents($editedFilePath, $resultContent);
         file_put_contents($originalPath, $resultContent);
