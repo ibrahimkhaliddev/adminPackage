@@ -15,13 +15,13 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $this->publishes([
             __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
-        ], 'my-package-resources');
+        ], 'laravel-assets');
         $this->publishes([
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
-        ], 'my-package-resources');
+        ], 'laravel-assets');
         $this->publishes([
             __DIR__ . '/Database/migrations' => database_path('migrations'),
-        ], 'my-package-resources');
+        ], 'laravel-assets');
 
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
