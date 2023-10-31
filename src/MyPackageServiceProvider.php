@@ -16,9 +16,11 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
         ], 'my-package-resources');
-
         $this->publishes([
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
+        ], 'my-package-resources');
+        $this->publishes([
+            __DIR__ . '/Database/migrations' => database_path('migrations'),
         ], 'my-package-resources');
 
         $filePath = __DIR__ . '/Routes/web.php';
@@ -33,7 +35,6 @@ class MyPackageServiceProvider extends ServiceProvider
         
         $fileContents = file_get_contents($filePath);
         
-        // Remove specific lines from the file
         foreach ($linesToRemove as $line) {
             $fileContents = str_replace($line, '', $fileContents);
         }
@@ -70,7 +71,6 @@ class MyPackageServiceProvider extends ServiceProvider
         
         $resultContent = implode("\n", $mergedLines);
         
-        // Append '});' at the end of the file content
         $resultContent .= "\n});";
         
         file_put_contents($editedFilePath, $resultContent);
