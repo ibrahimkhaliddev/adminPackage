@@ -24,58 +24,61 @@ class MyPackageServiceProvider extends ServiceProvider
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
         $originalPath = base_path('routes/web.php');
-
+        
         $linesToRemove = [
             'use Illuminate\Support\Facades\Route;',
             'use App\Http\Controllers\HomeController;',
             'use App\Http\Controllers\MenuController;',
         ];
-
+        
         $fileContents = file_get_contents($filePath);
-
+        
         // Remove specific lines from the file
         foreach ($linesToRemove as $line) {
             $fileContents = str_replace($line, '', $fileContents);
         }
-
+        
         $thepackageWeb = $fileContents;
-
+        
         $thepackageWeb = preg_replace('/\s*<\?php\s*/', '', $thepackageWeb);
         $thepackageWeb = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $thepackageWeb);
-
+        
         $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $filteredLines = array_filter($lines, function ($line) {
             return strpos(trim($line), 'use') === 0;
         });
         array_unshift($filteredLines, '<?php');
-
+        
         $originalRoutes = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $originalFilteredLines = array_filter($originalRoutes, function ($originalRoute) {
             return strpos(trim($originalRoute), 'use') !== 0;
         });
-
+        
         $originalFilteredLines = array_filter($originalFilteredLines, function ($line) {
             return $line !== '<?php' && !empty(trim($line));
         });
-
+        
         $linesToInsert = [
             'use App\Http\Controllers\HomeController;',
             'use App\Http\Controllers\MenuController;',
             ' ',
         ];
-
+        
+        // Add '});' to the array
+        $linesToInsert[] = '});';
+        
         $mergedLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
-
-        // Remove duplicate values from the merged array
+        
         $mergedLines = array_unique($mergedLines);
-
+        
         $resultContent = implode("\n", $mergedLines);
-
+        
         file_put_contents($editedFilePath, $resultContent);
         file_put_contents($originalPath, $resultContent);
-
-
-
+        
+        
+        
+        
 
 
 
