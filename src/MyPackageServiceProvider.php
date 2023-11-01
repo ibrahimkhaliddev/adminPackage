@@ -112,7 +112,7 @@ if (!empty($files)) {
     $contents = file_get_contents($file);
 
     // Specify the line to find and the new line to add
-    $searchLine = '$table->string(\'new_column\');';
+    $searchLine = '$table->string(\'role\');';
     $newLine = "\t\t\t\$table->string('role');\n";
 
     // Check if the line already exists in the file
@@ -126,7 +126,12 @@ if (!empty($files)) {
             $updatedContents = substr_replace($contents, $newLine, $position, 0);
 
             // Write the modified contents back to the file
-            file_put_contents($file, $updatedContents);
+            if ($contents !== $updatedContents) {
+                file_put_contents($file, $updatedContents);
+                echo "Line added successfully.";
+            } else {
+                echo "Line already exists in the file.";
+            }
         } else {
             // Handle the case where the line is not found
             echo "Line not found in the file.";
@@ -138,6 +143,7 @@ if (!empty($files)) {
     // Handle the case where the file is not found
     echo "File not found.";
 }
+
 
 
 
