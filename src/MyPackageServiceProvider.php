@@ -19,9 +19,9 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
         ], 'laravel-assets');
-        $this->publishes([
-            __DIR__ . '/Database/migrations' => database_path('migrations'),
-        ], 'laravel-assets');
+        // $this->publishes([
+        //     __DIR__ . '/Database/migrations' => database_path('migrations'),
+        // ], 'laravel-assets');
 
         $filePath = __DIR__ . '/Routes/web.php';
         $editedFilePath = __DIR__ . '/Routes/sample.php';
@@ -80,6 +80,59 @@ class MyPackageServiceProvider extends ServiceProvider
         
         
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+// Find the migration file matching the pattern
+$files = glob(database_path('migrations/*create_users_table.php'));
+
+// Ensure that the file is found
+if (!empty($files)) {
+    $file = $files[0]; // Select the first match
+
+    // Read the file
+    $contents = file_get_contents($file);
+
+    // Specify the line to find and the new line to add
+    $searchLine = '$table->id();';
+    $newLine = "\t\t\t\$table->string('role');\n";
+
+    // Find the position of the search line
+    $position = strpos($contents, $searchLine);
+
+    // If the line is found, add the new line after it
+    if ($position !== false) {
+        $position += strlen($searchLine) + 1; // Move after the search line
+        $updatedContents = substr_replace($contents, $newLine, $position, 0);
+
+        // Write the modified contents back to the file
+        file_put_contents($file, $updatedContents);
+    } else {
+        // Handle the case where the line is not found
+        echo "Line not found in the file.";
+    }
+} else {
+    // Handle the case where the file is not found
+    echo "File not found.";
+}
 
 
 
