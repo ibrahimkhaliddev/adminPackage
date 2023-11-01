@@ -37,11 +37,8 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     private function publishViews()
     {
-        // Define the source and destination paths for the views
-        $sourceViewPath = __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php';
-        $destinationViewPath = resource_path('views/CustomAdminPackage/layout.blade.php');
-
-        // Publish the views from the package to the main application
+        $sourceViewPath = __DIR__ . '/resources/views/my_package';
+        $destinationViewPath = resource_path('views/my_package');
         $this->publishFile($sourceViewPath, $destinationViewPath);
     }
 
@@ -52,11 +49,8 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     private function publishControllers()
     {
-        // Define the source and destination paths for the controllers
         $sourceControllerPath = __DIR__ . '/Http/Controllers';
         $destinationControllerPath = app_path('Http/Controllers');
-
-        // Publish the controllers from the package to the main application
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
     }
 
@@ -67,11 +61,8 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     private function publishMigrations()
     {
-        // Define the source and destination paths for the migrations
         $sourceMigrationPath = __DIR__ . '/Database/migrations';
         $destinationMigrationPath = database_path('migrations');
-
-        // Publish the migrations from the package to the main application
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
@@ -85,7 +76,6 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     private function publishFile($source, $destination)
     {
-        // Publish the file using Laravel's publishing functionality
         $this->publishes([$source => $destination], 'laravel-assets');
     }
 
