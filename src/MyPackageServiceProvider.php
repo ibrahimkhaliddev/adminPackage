@@ -23,15 +23,10 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Publish necessary package assets and files
         $this->publishViews();
         $this->publishControllers();
         $this->publishMigrations();
-
-        // Modify the web routes to integrate package routes
         $this->editWebRoutes();
-
-        // Edit the package-related migrations for necessary changes
         $this->editMigrations();
     }
 
