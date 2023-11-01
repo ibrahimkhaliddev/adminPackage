@@ -47,7 +47,7 @@ class MyPackageServiceProvider extends ServiceProvider
     private function publishMidlewares()
     {
         $sourceViewPath = __DIR__ . '/Http/Middleware/CheckPermissions';
-        $destinationViewPath = app_path('middleware/CheckPermissions.php');
+        $destinationViewPath = app_path('Http/Middleware/CheckPermissions.php');
         $this->publishFile($sourceViewPath, $destinationViewPath);
     }
 
