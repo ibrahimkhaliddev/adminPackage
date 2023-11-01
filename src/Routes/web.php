@@ -1,14 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/login', [HomeController::class, 'login'])->name('login');
-Route::post('/login', [HomeController::class, 'loginUser'])->name('loginUser');
-Route::post('/register', [HomeController::class, 'registerUser'])->name('registerUser');
-Route::get('/register', [HomeController::class, 'register'])->name('register');
-Route::get('/logout', [HomeController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/update-all-users-menu', [HomeController::class, 'updateUserMenu'])->name('updateUserMenu');

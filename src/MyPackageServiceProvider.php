@@ -52,7 +52,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $sampleWebPath = __DIR__ . '/Routes/sample.php';
         $originalWebPath = base_path('routes/web.php');
 
-        $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\HomeController;', 'use App\Http\Controllers\MenuController;'];
+        $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
 
         $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
         $packageWebContent = $this->cleanPhpTags($packageWebContent);
@@ -63,7 +63,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
         
-        $linesToInsert = ['use App\Http\Controllers\HomeController;', 'use App\Http\Controllers\MenuController;', ' '];
+        $linesToInsert = [ 'use App\Http\Controllers\MenuController;', ' '];
 
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
 
