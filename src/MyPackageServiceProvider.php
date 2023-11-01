@@ -13,120 +13,104 @@ class MyPackageServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $this->publishes([
-            __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php' => resource_path('views/CustomAdminPackage/layout.blade.php'),
-        ], 'laravel-assets');
-        $this->publishes([
-            __DIR__ . '/Http/Controllers' => app_path('Http/Controllers'),
-        ], 'laravel-assets');
-        // $this->publishes([
-        //     __DIR__ . '/Database/migrations' => database_path('migrations'),
-        // ], 'laravel-assets');
+        $this->publishViews();
+        $this->publishControllers();
+        $this->publishMigrations();
+        $this->editWebRoutes();
+        $this->editMigrations();
+    }
 
-        $filePath = __DIR__ . '/Routes/web.php';
-        $editedFilePath = __DIR__ . '/Routes/sample.php';
-        $originalPath = base_path('routes/web.php');
+    private function publishViews()
+    {
+        $sourceViewPath = __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php';
+        $destinationViewPath = resource_path('views/CustomAdminPackage/layout.blade.php');
+        $this->publishFile($sourceViewPath, $destinationViewPath);
+    }
+
+    private function publishControllers()
+    {
+        $sourceControllerPath = __DIR__ . '/Http/Controllers';
+        $destinationControllerPath = app_path('Http/Controllers');
+        $this->publishFile($sourceControllerPath, $destinationControllerPath);
+    }
+
+    private function publishMigrations()
+    {
+        $sourceMigrationPath = __DIR__ . '/Database/migrations';
+        $destinationMigrationPath = database_path('migrations');
+        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
+    }
+
+    private function publishFile($source, $destination)
+    {
+        $this->publishes([$source => $destination], 'laravel-assets');
+    }
+
+    private function editWebRoutes()
+    {
+        $packageWebPath = __DIR__ . '/Routes/web.php';
+        $sampleWebPath = __DIR__ . '/Routes/sample.php';
+        $originalWebPath = base_path('routes/web.php');
+
+        $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\HomeController;', 'use App\Http\Controllers\MenuController;'];
+
+        $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
+        $packageWebContent = $this->cleanPhpTags($packageWebContent);
+
+        $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
+        array_unshift($filteredLines, '<?php');
+
+        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
         
-        $linesToRemove = [
-            'use Illuminate\Support\Facades\Route;',
-            'use App\Http\Controllers\HomeController;',
-            'use App\Http\Controllers\MenuController;',
-        ];
-        
+        $linesToInsert = ['use App\Http\Controllers\HomeController;', 'use App\Http\Controllers\MenuController;', ' '];
+
+        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
+
+        $resultContent = implode("\n", $mergedLines) . "\n});";
+
+        file_put_contents($sampleWebPath, $resultContent);
+        file_put_contents($originalWebPath, $resultContent);
+    }
+
+    private function removeLinesFromFile($filePath, $linesToRemove)
+    {
         $fileContents = file_get_contents($filePath);
-        
+
         foreach ($linesToRemove as $line) {
             $fileContents = str_replace($line, '', $fileContents);
         }
-        
-        $thepackageWeb = $fileContents;
-        
-        $thepackageWeb = preg_replace('/\s*<\?php\s*/', '', $thepackageWeb);
-        $thepackageWeb = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $thepackageWeb);
-        
-        $lines = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $filteredLines = array_filter($lines, function ($line) {
-            return strpos(trim($line), 'use') === 0;
-        });
-        array_unshift($filteredLines, '<?php');
-        
-        $originalRoutes = file($originalPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $originalFilteredLines = array_filter($originalRoutes, function ($originalRoute) {
-            return strpos(trim($originalRoute), 'use') !== 0;
-        });
-        
-        $originalFilteredLines = array_filter($originalFilteredLines, function ($line) {
-            return $line !== '<?php' && !empty(trim($line));
-        });
-        
-        $linesToInsert = [
-            'use App\Http\Controllers\HomeController;',
-            'use App\Http\Controllers\MenuController;',
-            ' ',
-        ];
-        
-        $mergedLines = array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $thepackageWeb));
-        
-        $mergedLines = array_unique($mergedLines);
-        
-        $resultContent = implode("\n", $mergedLines);
-        
-        $resultContent .= "\n});";
-        
-        file_put_contents($editedFilePath, $resultContent);
-        file_put_contents($originalPath, $resultContent);
-        
- 
 
+        return $fileContents;
+    }
 
-$files = glob(database_path('migrations/*create_users_table.php'));
-if (!empty($files)) {
-    $file = $files[0];
-    $contents = file_get_contents($file);
-    $searchLine = '$table->string(\'role\');';
-    $newLine = "\t\t\t\$table->string('role');\n";
-    if (strpos($contents, $searchLine) === false) {
-        $position = strpos($contents, '$table->id();');
-        if ($position !== false) {
-            $position += strlen('$table->id();') + 1;
-            $updatedContents = substr_replace($contents, $newLine, $position, 0);
+    private function cleanPhpTags($content)
+    {
+        $content = preg_replace('/\s*<\?php\s*/', '', $content);
+        $content = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $content);
+        return $content;
+    }
 
-            if ($contents !== $updatedContents) {
-                file_put_contents($file, $updatedContents);
+    private function editMigrations()
+    {
+        $migrationFiles = glob(database_path('migrations/*create_users_table.php'));
+        if (!empty($migrationFiles)) {
+            $file = $migrationFiles[0];
+            $contents = file_get_contents($file);
+            $searchLine = '$table->string(\'role\');';
+            $newLine = "\t\t\t\$table->string('role');\n";
+            if (strpos($contents, $searchLine) === false) {
+                $position = strpos($contents, '$table->id();');
+                if ($position !== false) {
+                    $position += strlen('$table->id();') + 1;
+                    $updatedContents = substr_replace($contents, $newLine, $position, 0);
+
+                    if ($contents !== $updatedContents) {
+                        file_put_contents($file, $updatedContents);
+                    }
+                }
             }
         }
     }
 }
 
-
-
-        // Write the updated content back to the file
-        // file_put_contents($editedFilePath, implode("\n", $resultLines));
-        // echo implode("\n", $resultLines);
-        //     $lines = explode("\n", $contents);
-        //     $newContents = '';
-        //     foreach ($lines as $line) {
-        //         $shouldRemove = false;
-        //         foreach ($linesToRemove as $lineToRemove) {
-        //             if (strpos(trim($line), trim($lineToRemove)) !== false) {
-        //                 $shouldRemove = true;
-        //                 break;
-        //             }
-        //         }
-        //         if (!$shouldRemove) {
-        //             $newContents .= $line . "\n";
-        //         }
-        //     }
-
-        //     // Write the updated content back to the file
-        //     file_put_contents($filePath, $newContents);
-
-        //     // echo $newContents;
-        //     // Display a success message
-        //     // echo "Lines removed successfully.";
-        // } else {
-        //     // Handle the case when the file doesn't exist
-        //     echo "File not found.";
-        // }
-    }
-}
