@@ -32,12 +32,6 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMidlewares();
     }
 
-    // private function registerMiddleware()
-    // {
-    //     $router = $this->app['router'];
-    //     $router->aliasMiddleware('CheckPermissions', \Panelist\admin-package\Http\Middleware\CheckPermissions::class);
-    // }
-
     /**
      * Publish custom views from the package to the main application.
      *
