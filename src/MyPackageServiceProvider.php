@@ -112,22 +112,27 @@ if (!empty($files)) {
     $contents = file_get_contents($file);
 
     // Specify the line to find and the new line to add
-    $searchLine = '$table->id();';
+    $searchLine = '$table->string(\'new_column\');';
     $newLine = "\t\t\t\$table->string('role');\n";
 
-    // Find the position of the search line
-    $position = strpos($contents, $searchLine);
+    // Check if the line already exists in the file
+    if (strpos($contents, $searchLine) === false) {
+        // Find the position of the search line
+        $position = strpos($contents, '$table->id();');
 
-    // If the line is found, add the new line after it
-    if ($position !== false) {
-        $position += strlen($searchLine) + 1; // Move after the search line
-        $updatedContents = substr_replace($contents, $newLine, $position, 0);
+        // If the line is found, add the new line after it
+        if ($position !== false) {
+            $position += strlen('$table->id();') + 1; // Move after the search line
+            $updatedContents = substr_replace($contents, $newLine, $position, 0);
 
-        // Write the modified contents back to the file
-        file_put_contents($file, $updatedContents);
+            // Write the modified contents back to the file
+            file_put_contents($file, $updatedContents);
+        } else {
+            // Handle the case where the line is not found
+            echo "Line not found in the file.";
+        }
     } else {
-        // Handle the case where the line is not found
-        echo "Line not found in the file.";
+        echo "Line already exists in the file.";
     }
 } else {
     // Handle the case where the file is not found
