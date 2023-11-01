@@ -28,6 +28,13 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMigrations();
         $this->editWebRoutes();
         $this->editMigrations();
+        $this->registerMiddleware();
+    }
+
+    private function registerMiddleware()
+    {
+        $router = $this->app['router'];
+        $router->aliasMiddleware('CheckPermissions', \Panelist\admin-package\Http\Middleware\CheckPermissions::class);
     }
 
     /**
