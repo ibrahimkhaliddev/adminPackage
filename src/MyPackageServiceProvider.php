@@ -76,79 +76,27 @@ class MyPackageServiceProvider extends ServiceProvider
         file_put_contents($editedFilePath, $resultContent);
         file_put_contents($originalPath, $resultContent);
         
-        
-        
-        
+ 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-// Find the migration file matching the pattern
 $files = glob(database_path('migrations/*create_users_table.php'));
-
-// Ensure that the file is found
 if (!empty($files)) {
-    $file = $files[0]; // Select the first match
-
-    // Read the file
+    $file = $files[0];
     $contents = file_get_contents($file);
-
-    // Specify the line to find and the new line to add
     $searchLine = '$table->string(\'role\');';
     $newLine = "\t\t\t\$table->string('role');\n";
-
-    // Check if the line already exists in the file
     if (strpos($contents, $searchLine) === false) {
-        // Find the position of the search line
         $position = strpos($contents, '$table->id();');
-
-        // If the line is found, add the new line after it
         if ($position !== false) {
-            $position += strlen('$table->id();') + 1; // Move after the search line
+            $position += strlen('$table->id();') + 1;
             $updatedContents = substr_replace($contents, $newLine, $position, 0);
 
-            // Write the modified contents back to the file
             if ($contents !== $updatedContents) {
                 file_put_contents($file, $updatedContents);
-                echo "Line added successfully.";
-            } else {
-                echo "Line already exists in the file.";
             }
-        } else {
-            // Handle the case where the line is not found
-            echo "Line not found in the file.";
         }
-    } else {
-        echo "Line already exists in the file.";
     }
-} else {
-    // Handle the case where the file is not found
-    echo "File not found.";
 }
-
-
-
-
-
-
 
 
 
