@@ -28,14 +28,15 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMigrations();
         $this->editWebRoutes();
         $this->editMigrations();
-        $this->registerMiddleware();
+        // $this->registerMiddleware();
+        $this->publishMidlewares();
     }
 
-    private function registerMiddleware()
-    {
-        $router = $this->app['router'];
-        $router->aliasMiddleware('CheckPermissions', \Panelist\admin-package\Http\Middleware\CheckPermissions::class);
-    }
+    // private function registerMiddleware()
+    // {
+    //     $router = $this->app['router'];
+    //     $router->aliasMiddleware('CheckPermissions', \Panelist\admin-package\Http\Middleware\CheckPermissions::class);
+    // }
 
     /**
      * Publish custom views from the package to the main application.
@@ -46,6 +47,13 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceViewPath = __DIR__ . '/resources/views/my_package';
         $destinationViewPath = resource_path('views/my_package');
+        $this->publishFile($sourceViewPath, $destinationViewPath);
+    }
+
+    private function publishMidlewares()
+    {
+        $sourceViewPath = __DIR__ . '/Http/Middleware/CheckPermissions';
+        $destinationViewPath = app_path('middleware/CheckPermissions.php');
         $this->publishFile($sourceViewPath, $destinationViewPath);
     }
 
