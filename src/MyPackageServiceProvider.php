@@ -6,45 +6,99 @@ use Illuminate\Support\ServiceProvider;
 
 class MyPackageServiceProvider extends ServiceProvider
 {
+    /**
+     * Register any package services.
+     *
+     * @return void
+     */
     public function register()
     {
         // Add any necessary bindings or services here
     }
 
+    /**
+     * Bootstrap any package services.
+     *
+     * @return void
+     */
     public function boot()
     {
+        // Publish necessary package assets and files
         $this->publishViews();
         $this->publishControllers();
         $this->publishMigrations();
+
+        // Modify the web routes to integrate package routes
         $this->editWebRoutes();
+
+        // Edit the package-related migrations for necessary changes
         $this->editMigrations();
     }
 
+    /**
+     * Publish custom views from the package to the main application.
+     *
+     * @return void
+     */
     private function publishViews()
     {
+        // Define the source and destination paths for the views
         $sourceViewPath = __DIR__ . '/resources/views/myCustomAdminPackage/layout.blade.php';
         $destinationViewPath = resource_path('views/CustomAdminPackage/layout.blade.php');
+
+        // Publish the views from the package to the main application
         $this->publishFile($sourceViewPath, $destinationViewPath);
     }
 
+    /**
+     * Publish custom controllers from the package to the main application.
+     *
+     * @return void
+     */
     private function publishControllers()
     {
+        // Define the source and destination paths for the controllers
         $sourceControllerPath = __DIR__ . '/Http/Controllers';
         $destinationControllerPath = app_path('Http/Controllers');
+
+        // Publish the controllers from the package to the main application
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
     }
 
+    /**
+     * Publish custom migrations from the package to the main application.
+     *
+     * @return void
+     */
     private function publishMigrations()
     {
+        // Define the source and destination paths for the migrations
         $sourceMigrationPath = __DIR__ . '/Database/migrations';
         $destinationMigrationPath = database_path('migrations');
+
+        // Publish the migrations from the package to the main application
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
+    /**
+     * Publish a file from the package source to the application destination.
+     *
+     * @param string $source      The source file path.
+     * @param string $destination The destination file path.
+     *
+     * @return void
+     */
     private function publishFile($source, $destination)
     {
+        // Publish the file using Laravel's publishing functionality
         $this->publishes([$source => $destination], 'laravel-assets');
     }
+
+    /**
+     * Edit the main application's web routes to integrate package routes.
+     *
+     * @return void
+     */
 
     private function editWebRoutes()
     {
@@ -62,8 +116,8 @@ class MyPackageServiceProvider extends ServiceProvider
         array_unshift($filteredLines, '<?php');
 
         $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
-        
-        $linesToInsert = [ 'use App\Http\Controllers\MenuController;', ' '];
+
+        $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
 
@@ -72,6 +126,15 @@ class MyPackageServiceProvider extends ServiceProvider
         file_put_contents($sampleWebPath, $resultContent);
         file_put_contents($originalWebPath, $resultContent);
     }
+
+    /**
+     * Remove specific lines from a file.
+     *
+     * @param string $filePath      The file path.
+     * @param array  $linesToRemove The lines to be removed.
+     *
+     * @return string The updated content after removing lines.
+     */
 
     private function removeLinesFromFile($filePath, $linesToRemove)
     {
@@ -84,6 +147,13 @@ class MyPackageServiceProvider extends ServiceProvider
         return $fileContents;
     }
 
+    /**
+     * Clean PHP tags from content.
+     *
+     * @param string $content The content to be cleaned.
+     *
+     * @return string The cleaned content.
+     */
     private function cleanPhpTags($content)
     {
         $content = preg_replace('/\s*<\?php\s*/', '', $content);
@@ -91,6 +161,11 @@ class MyPackageServiceProvider extends ServiceProvider
         return $content;
     }
 
+    /**
+     * Edit the package-related migrations for necessary changes.
+     *
+     * @return void
+     */
     private function editMigrations()
     {
         $migrationFiles = glob(database_path('migrations/*create_users_table.php'));
