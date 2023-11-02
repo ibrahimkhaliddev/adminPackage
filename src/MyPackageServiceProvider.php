@@ -49,8 +49,9 @@ class MyPackageServiceProvider extends ServiceProvider
         $sourceViewPath = __DIR__ . '/Http/Middleware/CheckPermissions.php';
         $destinationViewPath = app_path('Http/Middleware/CheckPermissions.php');
         $this->publishFile($sourceViewPath, $destinationViewPath);
-        $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class);
-        print_r( $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class) );
+        $this->addMiddlewareToKernel('permission', '\App\Http\Middleware\CheckPermissions');
+        // $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class);
+        // print_r($this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class));
     }
 
     /**
@@ -183,5 +184,28 @@ class MyPackageServiceProvider extends ServiceProvider
             }
         }
     }
+
+    /**
+     * Add a new middleware entry to the Kernel.php file.
+     *
+     * @param string $alias The alias of the middleware.
+     * @param string $middlewareClass The fully qualified class name of the middleware.
+     * @return void
+     */
+    private function addMiddlewareToKernel($alias, $middlewareClass)
+    {
+        $kernelFilePath = app_path('Http/Kernel.php');
+        $kernelContent = file_get_contents($kernelFilePath);
+
+        $newMiddlewareEntry = "        '{$alias}' => {$middlewareClass}::class,";
+
+        if (strpos($kernelContent, $newMiddlewareEntry) === false) {
+            $position = strpos($kernelContent, '];');
+            $updatedContent = substr_replace($kernelContent, $newMiddlewareEntry . "\n", $position, 0);
+
+            file_put_contents($kernelFilePath, $updatedContent);
+        }
+    }
+
 }
 
