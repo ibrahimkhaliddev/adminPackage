@@ -198,7 +198,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $kernelContent = file_get_contents($kernelFilePath);
 
         // Define the new middleware entry
-        $newMiddlewareEntry = "'{$alias}' => {$middlewareClass}::class," . PHP_EOL;
+        $newMiddlewareEntry = "\n'{$alias}' => {$middlewareClass}::class," . PHP_EOL;
 
         // Check if the entry already exists in the file
         if (strpos($kernelContent, $newMiddlewareEntry) === false) {
