@@ -50,7 +50,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $destinationViewPath = app_path('Http/Middleware/CheckPermissions.php');
         $this->publishFile($sourceViewPath, $destinationViewPath);
         $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class);
-        print_r( $router = $this->app['router']);
+        print_r( $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class) );
     }
 
     /**
