@@ -186,7 +186,7 @@ class MyPackageServiceProvider extends ServiceProvider
     }
 
     /**
-     * Add a new middleware entry to the Kernel.php file.
+     * Add a new middleware entry to the Kernel.php file under $routeMiddleware.
      *
      * @param string $alias The alias of the middleware.
      * @param string $middlewareClass The fully qualified class name of the middleware.
@@ -197,15 +197,22 @@ class MyPackageServiceProvider extends ServiceProvider
         $kernelFilePath = app_path('Http/Kernel.php');
         $kernelContent = file_get_contents($kernelFilePath);
 
+        // Define the new middleware entry
         $newMiddlewareEntry = "        '{$alias}' => {$middlewareClass}::class,";
 
+        // Check if the entry already exists in the file
         if (strpos($kernelContent, $newMiddlewareEntry) === false) {
-            $position = strpos($kernelContent, '];');
+            // Find the position to insert the new middleware entry under $routeMiddleware
+            $position = strpos($kernelContent, '$routeMiddleware');
+            $position = strpos($kernelContent, '[', $position);
+            $position = strpos($kernelContent, "\n", $position);
             $updatedContent = substr_replace($kernelContent, $newMiddlewareEntry . "\n", $position, 0);
 
+            // Write the updated contents back to the file
             file_put_contents($kernelFilePath, $updatedContent);
         }
     }
+
 
 }
 
