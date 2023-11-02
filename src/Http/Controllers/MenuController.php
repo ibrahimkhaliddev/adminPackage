@@ -22,7 +22,7 @@ class MenuController extends Controller
         $hasChildMenus = $userMenus->contains(function ($menu) {
             return $menu->children->isNotEmpty();
         });
-        return view('admin/home', compact('menus', 'users', 'userMenus'));
+        return view('my_package/admin/home', compact('menus', 'users', 'userMenus'));
     }
     public function getUserMenus($userId)
     {
@@ -62,12 +62,12 @@ class MenuController extends Controller
         $hasChildMenus = $userMenus->contains(function ($menu) {
             return $menu->children->isNotEmpty();
         });
-        return view('home', compact('userMenus'));
+        return view('my_package/home', compact('userMenus'));
     }
 
     public function createMenu()
     {
-        return view('admin/createMenu');
+        return view('my_package/admin/createMenu');
     }
 
     public function storeMenu(Request $request)
@@ -87,7 +87,7 @@ class MenuController extends Controller
 
             $menu->save();
             $menus = stMenu::orderBy('position')->get();
-            $output = view('admin/MenuGet', compact('menus'))->render();
+            $output = view('my_package/admin/menu/get', compact('menus'))->render();
 
             return $output;
         } else {
@@ -173,7 +173,7 @@ class MenuController extends Controller
         }
 
         $menus = stMenu::orderBy('position')->get();
-        $output = view('admin/MenuGet', compact('menus'))->render();
+        $output = view('my_package/admin/menu/get', compact('menus'))->render();
 
         return $output;
     }
@@ -182,7 +182,7 @@ class MenuController extends Controller
     {
         $menu = stMenu::find($id)->delete();
         $menus = stMenu::orderBy('position')->get();
-        $output = view('admin/MenuGet', compact('menus'))->render();
+        $output = view('my_package/admin/menu/get', compact('menus'))->render();
 
         return $output;
     }
@@ -196,7 +196,7 @@ class MenuController extends Controller
             return $menu->children->isNotEmpty();
         });
         $menus = stMenu::orderBy('position')->get();
-        return view('admin/menuShow', compact('menus', 'userMenus'));
+        return view('my_package/admin/menu/show', compact('menus', 'userMenus'));
     }
 
     function menuManage()
@@ -209,7 +209,7 @@ class MenuController extends Controller
         $hasChildMenus = $userMenus->contains(function ($menu) {
             return $menu->children->isNotEmpty();
         });
-        return view('admin/menuManage', compact('menus', 'users', 'userMenus'));
+        return view('my_package/admin/menu/manage', compact('menus', 'users', 'userMenus'));
     }
 
     public function setupCountry(Request $request)
@@ -239,7 +239,7 @@ class MenuController extends Controller
             return $menu->children->isNotEmpty();
         });
 
-        return view('setup.country', compact('countries', 'userMenus', 'permissions'));
+        return view('my_package/setup.country', compact('countries', 'userMenus', 'permissions'));
     }
 
 
@@ -253,7 +253,7 @@ class MenuController extends Controller
         });
         $menus = stMenu::orderBy('position')->get();
         $users = User::all();
-        return view('Role.roleSetup', compact('userMenus', 'menus', 'users'));
+        return view('my_package/admin.role.setup', compact('userMenus', 'menus', 'users'));
     }
 
     function roleUpdate(Request $request)
@@ -318,7 +318,7 @@ class MenuController extends Controller
         $hasChildMenus = $userMenus->contains(function ($menu) {
             return $menu->children->isNotEmpty();
         });
-        return view('setup.countryCreate', compact('userMenus'));
+        return view('my_package/setup.countryCreate', compact('userMenus'));
     }
     function setupCountryCreate(Request $request)
     {
@@ -338,7 +338,7 @@ class MenuController extends Controller
             return $menu->children->isNotEmpty();
         });
         $country = Country::find($country_id);
-        return view('setup.countryUpdate', compact('userMenus', 'country'));
+        return view('my_package/setup.countryUpdate', compact('userMenus', 'country'));
     }
     function setupCountryUpdate(Request $request)
     {
@@ -365,7 +365,7 @@ class MenuController extends Controller
     function setupCountryDownload()
     {
         $countries = Country::all();
-        $pdf = PDF::loadView('setup.countries_pdf', compact('countries'));
+        $pdf = PDF::loadView('my_package/setup.countries_pdf', compact('countries'));
         return $pdf->download('countries.pdf');
     }
 }
