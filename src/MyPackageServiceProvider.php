@@ -118,7 +118,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
 
-        $resultContent = implode("\n", $mergedLines) . "\n});";
+        $resultContent = implode("\n", $mergedLines);
 
         file_put_contents($sampleWebPath, $resultContent);
         file_put_contents($originalWebPath, $resultContent);
