@@ -196,17 +196,10 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $kernelFilePath = app_path('Http/Kernel.php');
         $kernelContent = file_get_contents($kernelFilePath);
-
-        // Define the new middleware entry
-        $newMiddlewareEntry = "\n'{$alias}' => {$middlewareClass}::class," . PHP_EOL;
-
-        // Check if the entry already exists in the file
+        $newMiddlewareEntry = "\n        '{$alias}' => {$middlewareClass}::class," . PHP_EOL;
         if (strpos($kernelContent, $newMiddlewareEntry) === false) {
-            // Find the position to insert the new middleware entry under $routeMiddleware
             $position = strrpos($kernelContent, "\n    ];");
             $updatedContent = substr_replace($kernelContent, $newMiddlewareEntry, $position, 0);
-
-            // Write the updated contents back to the file
             file_put_contents($kernelFilePath, $updatedContent);
         }
     }
