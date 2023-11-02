@@ -203,14 +203,14 @@ class MyPackageServiceProvider extends ServiceProvider
         // Check if the entry already exists in the file
         if (strpos($kernelContent, $newMiddlewareEntry) === false) {
             // Find the position to insert the new middleware entry under $routeMiddleware
-            $position = strpos($kernelContent, "'verified'");
-            $position = strpos($kernelContent, "\n", $position);
+            $position = strrpos($kernelContent, "\n    ];");
             $updatedContent = substr_replace($kernelContent, $newMiddlewareEntry, $position, 0);
 
             // Write the updated contents back to the file
             file_put_contents($kernelFilePath, $updatedContent);
         }
     }
+
 
 
 }
