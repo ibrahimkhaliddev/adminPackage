@@ -125,7 +125,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceMigrationPath = __DIR__ . '/Route/adminPackage.php';
+        $sourceMigrationPath = __DIR__ . '/Routes/adminPackage.php';
         $destinationMigrationPath = base_path('/routes');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
