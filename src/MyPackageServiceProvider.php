@@ -165,7 +165,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
-        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
+        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent)));
 
         $resultContent = implode("\n", $mergedLines);
 
