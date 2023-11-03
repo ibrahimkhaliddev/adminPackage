@@ -77,15 +77,20 @@ class MyPackageServiceProvider extends ServiceProvider
 
         $filePath = app_path('Models/User.php');
         $newFunction = "    public function menus()
-    {
-        return \$this->belongsToMany(stMenu::class, 'st_user_menus', 'user_id', 'menu_id');
-    }";
-
+            {
+                return \$this->belongsToMany(stMenu::class, 'st_user_menus', 'user_id', 'menu_id');
+            }";
+        
         $fileContent = file_get_contents($filePath);
-        $insertPosition = strpos($fileContent, 'class User extends Authenticatable');
-        $insertPosition = strpos($fileContent, '{', $insertPosition) + 1;
-        $updatedContent = substr($fileContent, 0, $insertPosition) . "\n" . $newFunction . "\n" . substr($fileContent, $insertPosition);
-        file_put_contents($filePath, $updatedContent);
+        
+        if (strpos($fileContent, 'public function menus()') === false) {
+            $insertPosition = strpos($fileContent, 'class User extends Authenticatable');
+            $insertPosition = strpos($fileContent, '{', $insertPosition) + 1;
+            $updatedContent = substr($fileContent, 0, $insertPosition) . "\n" . $newFunction . "\n" . substr($fileContent, $insertPosition);
+        
+            file_put_contents($filePath, $updatedContent);
+        }
+        
 
 
 
