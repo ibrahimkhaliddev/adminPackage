@@ -122,7 +122,7 @@ class MyPackageServiceProvider extends ServiceProvider
     }
 
     private function publishAssets(){
-        $sourceMigrationPath = __DIR__ . '/public/adminPacakge';
+        $sourceMigrationPath = __DIR__ . '/public/adminPackage';
         $destinationMigrationPath = public_path('/adminPackage');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
