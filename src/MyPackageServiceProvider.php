@@ -157,7 +157,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
 
         $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
-        // $packageWebContent = $this->cleanPhpTags($packageWebContent);
+        $packageWebContent = $this->cleanPhpTags($packageWebContent);
 
         $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
@@ -172,7 +172,7 @@ class MyPackageServiceProvider extends ServiceProvider
         
 
 
-        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
+        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent), $originalFilteredLines));
         $resultContent = implode("\n", $mergedLines);
 // print_r(filteredLines);
 file_put_contents($sampleWebPath, implode("\n", $mergedLines));
