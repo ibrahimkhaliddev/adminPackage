@@ -124,16 +124,17 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceMigrationPath = __DIR__ . '/Routes';
-        $destinationMigrationPath = base_path('/routes');
-        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
+        $sourceRoutePath = __DIR__ . '/../Routes';
+        $destinationRoutePath = base_path('routes');
+        $this->publishFile($sourceRoutePath, $destinationRoutePath);
         $routePath = base_path('routes/web.php');
-        // $newLine = "\n require __DIR__.'/adminPackage.php';\n";
-        // $fileContent = file_get_contents($routePath);
-        // if (strpos($fileContent, $newLine) === false) {
-        //     file_put_contents($routePath, $newLine, FILE_APPEND);
-        // }
+        $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
+        $fileContent = file_get_contents($routePath);
+        if (strpos($fileContent, $newLine) === false) {
+            file_put_contents($routePath, $newLine, FILE_APPEND);
+        }
     }
+
 
     private function publishAssets()
     {
