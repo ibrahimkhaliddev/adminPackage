@@ -124,10 +124,10 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceRoutePath = __DIR__ . '/Route';
-        $destinationMigrationPath = base_path('/routes');
-        $this->publishes([$sourceRoutePath => $destinationMigrationPath], 'laravel-assets');
-        // $this->publishFile($sourceRoutePath, $destinationMigrationPath);
+        $sourceRoutePath = __DIR__ . '/Route/adminPackage.php';
+        $destinationMigrationPath = base_path('/routes/adminPackage.php');
+        echo "done";
+        $this->publishFile($sourceRoutePath, $destinationMigrationPath);
         echo "done";
         $routePath = base_path('/routes/web.php');
         $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
