@@ -30,6 +30,8 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->editMigrations();
         $this->publishModels();
         $this->publishMidlewares();
+        $this->updateUserModel();
+        $this->publishHelpers();
     }
 
     /**
@@ -71,10 +73,18 @@ class MyPackageServiceProvider extends ServiceProvider
      */
     private function publishModels()
     {
-        $sourceControllerPath = __DIR__ . '/Model';
+        $sourceControllerPath = __DIR__ . '/Models';
         $destinationControllerPath = app_path('Models');
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
+    }
 
+    /**
+     * Update the User model to include a new 'menus' relationship function if it does not exist already.
+     * 
+     * @return void
+     */
+    private function updateUserModel()
+    {
         $filePath = app_path('Models/User.php');
         $newFunction = "    public function menus()
     {
@@ -90,10 +100,12 @@ class MyPackageServiceProvider extends ServiceProvider
 
             file_put_contents($filePath, $updatedContent);
         }
+    }
 
-
-
-
+    private function publishHelpers(){
+        $sourceMigrationPath = __DIR__ . '/Helpers';
+        $destinationMigrationPath = app_path('/Helpers');
+        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
     /**
