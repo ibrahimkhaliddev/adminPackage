@@ -64,7 +64,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
     }
 
-        /**
+    /**
      * Publish custom models from the package to the main application.
      *
      * @return void
@@ -74,6 +74,21 @@ class MyPackageServiceProvider extends ServiceProvider
         $sourceControllerPath = __DIR__ . '/Model';
         $destinationControllerPath = app_path('Models');
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
+
+        $filePath = app_path('Models/User.php');
+        $newFunction = "    public function menus()
+    {
+        return \$this->belongsToMany(stMenu::class, 'st_user_menus', 'user_id', 'menu_id');
+    }";
+
+        $fileContent = file_get_contents($filePath);
+        $insertPosition = strpos($fileContent, 'class User extends Authenticatable');
+        $insertPosition = strpos($fileContent, '{', $insertPosition) + 1;
+        $updatedContent = substr($fileContent, 0, $insertPosition) . "\n" . $newFunction . "\n" . substr($fileContent, $insertPosition);
+        file_put_contents($filePath, $updatedContent);
+
+
+
     }
 
     /**
@@ -112,31 +127,31 @@ class MyPackageServiceProvider extends ServiceProvider
         $packageWebPath = __DIR__ . '/Routes/web.php';
         $sampleWebPath = __DIR__ . '/Routes/sample.php';
         $originalWebPath = base_path('routes/web.php');
-        
+
         $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
-        
+
         $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
         $packageWebContent = $this->cleanPhpTags($packageWebContent);
-        
+
         $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $filteredLines = array_filter($originalWebContent, fn ($line) => strpos(trim($line), 'use') === 0);
+        $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
         array_unshift($filteredLines, '<?php');
-        
-        $originalFilteredLines = array_filter($originalWebContent, fn ($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
-        
+
+        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
+
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
-        
+
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
-        
+
         $resultContent = implode("\n", $mergedLines);
-        
+
         if (trim(end($mergedLines)) !== '});') {
             $resultContent .= "\n});";
         }
-        
+
         file_put_contents($sampleWebPath, $resultContent);
         file_put_contents($originalWebPath, $resultContent);
-        
+
     }
 
     /**
