@@ -26,14 +26,14 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishViews();
         $this->publishControllers();
         $this->publishMigrations();
-        $this->editWebRoutes();
-        $this->editMigrations();
+        $this->publishRoutes();
         $this->publishModels();
         $this->publishMidlewares();
-        $this->updateUserModel();
         $this->publishHelpers();
         $this->publishAssets();
-        $this->publishRoutes();
+        $this->editWebRoutes();
+        $this->editMigrations();
+        $this->updateUserModel();
     }
 
     /**
