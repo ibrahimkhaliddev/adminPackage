@@ -161,8 +161,8 @@ class MyPackageServiceProvider extends ServiceProvider
         $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
         array_unshift($filteredLines, '<?php');
 
-       echo $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
-
+        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
+        print_r($originalFilteredLines);
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent)));
