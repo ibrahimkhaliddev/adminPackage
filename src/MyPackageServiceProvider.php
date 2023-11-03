@@ -33,6 +33,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->updateUserModel();
         $this->publishHelpers();
         $this->publishAssets();
+        $this->publishRoutes();
     }
 
     /**
@@ -122,6 +123,13 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
+    private function publishRoutes()
+    {
+        $sourceMigrationPath = __DIR__ . '/Route/web.php';
+        $destinationMigrationPath = route_path('/adminPackage.php');
+        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
+    }
+
     private function publishAssets()
     {
         $sourceMigrationPath = __DIR__ . '/public/adminPackage';
@@ -150,39 +158,38 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function editWebRoutes()
     {
-        $packageWebPath = __DIR__ . '/Routes/web.php';
-        $sampleWebPath = __DIR__ . '/Routes/sample.php';
-        $originalWebPath = base_path('routes/web.php');
+        $routePath = base_path('routes/web.php');
+        $newLine = "\n require __DIR__.'/adminPackage.php';\n";
+        file_put_contents($routePath, $newLine, FILE_APPEND);
+        // $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
 
-        $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
+        // $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
+        // $packageWebContent = $this->cleanPhpTags($packageWebContent);
 
-        $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
-        $packageWebContent = $this->cleanPhpTags($packageWebContent);
-
-        $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
-        array_unshift($filteredLines, '<?php');
-
+        // $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        // $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
+        // array_unshift($filteredLines, '<?php');
 
 
-        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
-        $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
+
+        // $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
+        // $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
 
-        
 
 
-        $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent), $originalFilteredLines));
-        $resultContent = implode("\n", $mergedLines);
-// print_r(filteredLines);
-file_put_contents($sampleWebPath, implode("\n", $mergedLines));
-die();
-        if (trim(end($mergedLines)) !== '});') {
-            $resultContent .= "\n});";
-        }
 
-        // file_put_contents($sampleWebPath, $resultContent);
-        // file_put_contents($originalWebPath, $resultContent);
+        // $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent), $originalFilteredLines));
+        // $resultContent = implode("\n", $mergedLines);
+        // // print_r(filteredLines);
+        // file_put_contents($sampleWebPath, implode("\n", $mergedLines));
+        // die();
+        // if (trim(end($mergedLines)) !== '});') {
+        //     $resultContent .= "\n});";
+        // }
+
+        // // file_put_contents($sampleWebPath, $resultContent);
+        // // file_put_contents($originalWebPath, $resultContent);
 
     }
 
