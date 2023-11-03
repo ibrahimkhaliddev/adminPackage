@@ -126,7 +126,8 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceRoutePath = __DIR__ . '/Route';
         $destinationMigrationPath = base_path('/routes');
-        $this->publishFile($sourceRoutePath, $destinationMigrationPath);
+        $this->publishes([$sourceRoutePath => $destinationMigrationPath], 'laravel-assets');
+        // $this->publishFile($sourceRoutePath, $destinationMigrationPath);
         echo "done";
         $routePath = base_path('/routes/web.php');
         $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
