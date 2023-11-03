@@ -80,17 +80,17 @@ class MyPackageServiceProvider extends ServiceProvider
             {
                 return \$this->belongsToMany(stMenu::class, 'st_user_menus', 'user_id', 'menu_id');
             }";
-        
+
         $fileContent = file_get_contents($filePath);
-        
+
         if (strpos($fileContent, 'public function menus()') === false) {
             $insertPosition = strpos($fileContent, 'class User extends Authenticatable');
             $insertPosition = strpos($fileContent, '{', $insertPosition) + 1;
             $updatedContent = substr($fileContent, 0, $insertPosition) . "\n" . $newFunction . "\n" . substr($fileContent, $insertPosition);
-        
+
             file_put_contents($filePath, $updatedContent);
         }
-        
+
 
 
 
