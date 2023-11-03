@@ -165,7 +165,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
 
 
-        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php');
+        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
 
