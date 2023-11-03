@@ -125,8 +125,8 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceMigrationPath = __DIR__ . '/Route/web.php';
-        $destinationMigrationPath = base_path('routes/adminPackage.php');
+        $sourceMigrationPath = __DIR__ . '/Route/adminPackage.php';
+        $destinationMigrationPath = base_path('/routes');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
@@ -160,7 +160,11 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $routePath = base_path('routes/web.php');
         $newLine = "\n require __DIR__.'/adminPackage.php';\n";
-        file_put_contents($routePath, $newLine, FILE_APPEND);
+        $fileContent = file_get_contents($routePath);
+        if (strpos($fileContent, $newLine) === false) {
+            file_put_contents($routePath, $newLine, FILE_APPEND);
+        }
+
         // $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
 
         // $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
