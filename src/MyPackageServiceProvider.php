@@ -126,9 +126,10 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceRoutePath = __DIR__ . '/Route/adminPackage.php';
         $destinationMigrationPath = base_path('/routes/adminPackage.php');
-        echo "done";
+        echo $sourceRoutePath . "\n";
+        echo $destinationMigrationPath;
         $this->publishFile($sourceRoutePath, $destinationMigrationPath);
-        echo "done";
+        // echo "done";
         $routePath = base_path('/routes/web.php');
         $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
         $fileContent = file_get_contents($routePath);
