@@ -177,8 +177,8 @@ die();
             $resultContent .= "\n});";
         }
 
-        file_put_contents($sampleWebPath, $resultContent);
-        file_put_contents($originalWebPath, $resultContent);
+        // file_put_contents($sampleWebPath, $resultContent);
+        // file_put_contents($originalWebPath, $resultContent);
 
     }
 
