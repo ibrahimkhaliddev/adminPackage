@@ -163,6 +163,7 @@ class MyPackageServiceProvider extends ServiceProvider
 
         // print_r(filteredLines);
         file_put_contents($sampleWebPath, $filteredLines);
+        die();
 
         $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
 
