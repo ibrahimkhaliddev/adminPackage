@@ -169,15 +169,15 @@ class MyPackageServiceProvider extends ServiceProvider
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
 
 
-        // print_r(filteredLines);
-        file_put_contents($sampleWebPath, implode("\n", $originalFilteredLines));
-        die();
+        
 
 
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
         print_r($mergedLines);
         $resultContent = implode("\n", $mergedLines);
-
+// print_r(filteredLines);
+file_put_contents($sampleWebPath, implode("\n", $resultContent));
+die();
         if (trim(end($mergedLines)) !== '});') {
             $resultContent .= "\n});";
         }
