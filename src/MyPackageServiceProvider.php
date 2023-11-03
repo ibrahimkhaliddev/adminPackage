@@ -26,7 +26,6 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishViews();
         $this->publishControllers();
         $this->publishMigrations();
-        
         $this->publishModels();
         $this->publishMidlewares();
         $this->publishHelpers();
@@ -125,10 +124,10 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceRoutePath = __DIR__ . '/../Routes';
-        $destinationRoutePath = base_path('routes');
-        $this->publishFile($sourceRoutePath, $destinationRoutePath);
-        $routePath = base_path('routes/web.php');
+        $sourceRoutePath = __DIR__ . '/Route';
+        $destinationMigrationPath = base_path('/routes');
+        $this->publishFile($sourceRoutePath, $destinationMigrationPath);
+        $routePath = base_path('/routes/web.php');
         $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
         $fileContent = file_get_contents($routePath);
         if (strpos($fileContent, $newLine) === false) {
