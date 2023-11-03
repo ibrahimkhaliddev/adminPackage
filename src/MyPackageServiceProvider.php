@@ -31,7 +31,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMidlewares();
         $this->publishHelpers();
         $this->publishAssets();
-        $this->editWebRoutes();
+        // $this->editWebRoutes();
         $this->editMigrations();
         $this->updateUserModel();
     }
