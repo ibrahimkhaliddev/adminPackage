@@ -31,7 +31,6 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMidlewares();
         $this->publishHelpers();
         $this->publishAssets();
-        $this->editWebRoutes();
         $this->editMigrations();
         $this->updateUserModel();
     }
@@ -128,6 +127,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $sourceMigrationPath = __DIR__ . '/Routes/adminPackage.php';
         $destinationMigrationPath = base_path('/routes/adminPackage.php');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
+        $this->editWebRoutes();
     }
 
     private function publishAssets()
@@ -164,37 +164,6 @@ class MyPackageServiceProvider extends ServiceProvider
         if (strpos($fileContent, $newLine) === false) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
         }
-
-        // $linesToRemove = ['use Illuminate\Support\Facades\Route;', 'use App\Http\Controllers\MenuController;'];
-
-        // $packageWebContent = $this->removeLinesFromFile($packageWebPath, $linesToRemove);
-        // $packageWebContent = $this->cleanPhpTags($packageWebContent);
-
-        // $originalWebContent = file($originalWebPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        // $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
-        // array_unshift($filteredLines, '<?php');
-
-
-
-        // $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
-        // $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
-
-
-
-
-
-        // $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, explode("\n", $packageWebContent), $originalFilteredLines));
-        // $resultContent = implode("\n", $mergedLines);
-        // // print_r(filteredLines);
-        // file_put_contents($sampleWebPath, implode("\n", $mergedLines));
-        // die();
-        // if (trim(end($mergedLines)) !== '});') {
-        //     $resultContent .= "\n});";
-        // }
-
-        // // file_put_contents($sampleWebPath, $resultContent);
-        // // file_put_contents($originalWebPath, $resultContent);
-
     }
 
     /**
