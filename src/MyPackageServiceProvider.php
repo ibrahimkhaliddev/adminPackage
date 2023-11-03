@@ -28,7 +28,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMigrations();
         $this->editWebRoutes();
         $this->editMigrations();
-        // $this->registerMiddleware();
+        $this->publishModels();
         $this->publishMidlewares();
     }
 
@@ -50,8 +50,6 @@ class MyPackageServiceProvider extends ServiceProvider
         $destinationViewPath = app_path('Http/Middleware/CheckPermissions.php');
         $this->publishFile($sourceViewPath, $destinationViewPath);
         $this->addMiddlewareToKernel('permission', '\App\Http\Middleware\CheckPermissions');
-        // $this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class);
-        // print_r($this->app['router']->aliasMiddleware('permission', \App\Http\Middleware\CheckPermissions::class));
     }
 
     /**
@@ -63,6 +61,18 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceControllerPath = __DIR__ . '/Http/Controllers';
         $destinationControllerPath = app_path('Http/Controllers');
+        $this->publishFile($sourceControllerPath, $destinationControllerPath);
+    }
+
+        /**
+     * Publish custom models from the package to the main application.
+     *
+     * @return void
+     */
+    private function publishModels()
+    {
+        $sourceControllerPath = __DIR__ . '/Model';
+        $destinationControllerPath = app_path('Models');
         $this->publishFile($sourceControllerPath, $destinationControllerPath);
     }
 
