@@ -32,6 +32,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMidlewares();
         $this->updateUserModel();
         $this->publishHelpers();
+        $this->publishAssets();
     }
 
     /**
@@ -117,6 +118,12 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceMigrationPath = __DIR__ . '/Database/migrations';
         $destinationMigrationPath = database_path('migrations');
+        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
+    }
+
+    private function publishAssets(){
+        $sourceMigrationPath = __DIR__ . '/public/adminPacakge';
+        $destinationMigrationPath = public_path('/adminPackage');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
@@ -250,6 +257,8 @@ class MyPackageServiceProvider extends ServiceProvider
             file_put_contents($kernelFilePath, $updatedContent);
         }
     }
+
+
 
 
 

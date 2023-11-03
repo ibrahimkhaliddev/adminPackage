@@ -40,7 +40,7 @@
             <form action="{{ route('update.menus') }}" method="POST" class="mt-5 w-100 text-left rounded-md" id="menu-form">
                 @csrf
                 <input type="hidden" id="user_id" name="user_id">
-                <div class="topBg" style="display: none;"><img src="{{ asset('spinner.gif') }}" alt=""></div>
+                <div class="topBg" style="display: none;"><img src="{{ asset('adminPackage/spinner.gif') }}" alt=""></div>
                 <table class="table border border-gray">
                     <thead>
                         <tr style="background: #F2F2F2">

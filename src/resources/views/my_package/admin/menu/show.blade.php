@@ -65,7 +65,7 @@
                     @endforeach
                 </ol>
             </div>
-            <div class="topBg" style="display: none;"><img src="{{ asset('spinner.gif') }}" alt=""></div>
+            <div class="topBg" style="display: none;"><img src="{{ asset('adminPackage/spinner.gif') }}" alt=""></div>
         </form>
     </div>
 
