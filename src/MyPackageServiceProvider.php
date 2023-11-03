@@ -103,7 +103,8 @@ class MyPackageServiceProvider extends ServiceProvider
         }
     }
 
-    private function publishHelpers(){
+    private function publishHelpers()
+    {
         $sourceMigrationPath = __DIR__ . '/Helpers';
         $destinationMigrationPath = app_path('/Helpers');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
@@ -121,7 +122,8 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
-    private function publishAssets(){
+    private function publishAssets()
+    {
         $sourceMigrationPath = __DIR__ . '/public/adminPackage';
         $destinationMigrationPath = public_path('/adminPackage');
         $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
@@ -161,14 +163,17 @@ class MyPackageServiceProvider extends ServiceProvider
         $filteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') === 0);
         array_unshift($filteredLines, '<?php');
 
-        
 
-        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php' && !empty(trim($line)));
 
+        $originalFilteredLines = array_filter($originalWebContent, fn($line) => strpos(trim($line), 'use') !== 0 && $line !== '<?php');
         $linesToInsert = ['use App\Http\Controllers\MenuController;', ' '];
-// print_r(filteredLines);
-file_put_contents($sampleWebPath, implode("\n", $originalFilteredLines));
-die();
+
+
+        // print_r(filteredLines);
+        file_put_contents($sampleWebPath, implode("\n", $originalFilteredLines));
+        die();
+
+
         $mergedLines = array_unique(array_merge($filteredLines, $linesToInsert, $originalFilteredLines, explode("\n", $packageWebContent)));
         print_r($mergedLines);
         $resultContent = implode("\n", $mergedLines);
