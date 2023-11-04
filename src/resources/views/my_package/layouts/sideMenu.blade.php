@@ -2,7 +2,7 @@
     $user = Auth::user();
 @endphp
 
-@if (Auth::user()->role == 'admin')
+{{-- @if (Auth::user()->role == 'admin') --}}
 
     <div style="height: 100vh; background-color: #555;">
         <ul class="list-unstyled">
@@ -74,7 +74,7 @@
             @endforeach
         </ul>
     </div>
-@else
+{{-- @else
     <div class="bg-secondary" style="height: 100vh;">
         <ul class="list-unstyled">
             @foreach ($userMenus as $menu)
@@ -148,7 +148,7 @@
             @endforeach
         </ul>
     </div>
-@endif
+@endif --}}
 
 <script>
     function toggleChildren(element) {

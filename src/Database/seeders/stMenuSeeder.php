@@ -20,7 +20,7 @@ class stMenuSeeder extends Seeder
                 'parent_id' => null,
                 'level' => 1,
                 'position' => '1',
-                'operations' => '[{"title":"create","key":"create_key","value":false}',
+                'operations' => '[{"title":"create","key":"create_key","value":false}]',
             ],
             [
                 'id' => 2,
@@ -31,7 +31,7 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '0',
-                'operations' => '[{"title":"create","key":"create_key","value":false}',
+                'operations' => '[{"title":"create","key":"create_key","value":false}]',
             ],
             [
                 'id' => 3,
@@ -42,7 +42,7 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '1',
-                'operations' => '[{"title":"create","key":"create_key","value":false}',
+                'operations' => '[{"title":"create","key":"create_key","value":false}]',
             ],
             [
                 'id' => 4,
@@ -53,7 +53,7 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '2',
-                'operations' => '[{"title":"create","key":"create_key","value":false}',
+                'operations' => '[{"title":"create","key":"create_key","value":false}]',
             ]
         ];
         

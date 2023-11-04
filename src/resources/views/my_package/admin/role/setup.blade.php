@@ -20,12 +20,14 @@
             <div id="tabs" class="d-flex align-items-start">
                 <div style="width: 30%; -webkit-box-shadow: 3px 4px 10px -3px rgba(188,180,180,0.75);
                 -moz-box-shadow: 3px 4px 10px -3px rgba(188,180,180,0.75);
-                margin-right: 40px;" class=" border-gray">
+                margin-right: 40px;"
+                    class=" border-gray">
                     <ul class="list-group list-group-flush">
                         @foreach ($menus as $key => $menu)
                             @if ($menu->parent_id == null)
                                 <li class="{{ $key == 2 ? 'activeTab' : '' }} text-white px-2 py-2 rounded-sm">
-                                    <a class="w-100 d-block tabTitle text-capitalize" href="#tabs-{{ $menu->id }}">{{ $menu->title }}<i
+                                    <a class="w-100 d-block tabTitle text-capitalize"
+                                        href="#tabs-{{ $menu->id }}">{{ $menu->title }}<i
                                             class="fas fa-angle-double-right"></i></a>
                                 </li>
                             @endif
@@ -67,9 +69,11 @@
                                                 $maxPermissionsCount = 0;
                                                 foreach ($menu->children as $child) {
                                                     $permissions = json_decode($child->operations, true);
-                                                    $permissionsCount = count($permissions);
-                                                    if ($permissionsCount > $maxPermissionsCount) {
-                                                        $maxPermissionsCount = $permissionsCount;
+                                                    if (!empty($permissions)) {
+                                                        $permissionsCount = count($permissions);
+                                                        if ($permissionsCount > $maxPermissionsCount) {
+                                                            $maxPermissionsCount = $permissionsCount;
+                                                        }
                                                     }
                                                 }
                                             @endphp
@@ -193,10 +197,10 @@
                 },
                 success: function(response) {
                     swalWithBootstrapButtons.fire(
-                            'Success',
-                            'Role Updated',
-                            'success'
-                        )
+                        'Success',
+                        'Role Updated',
+                        'success'
+                    )
                     $('#submitBtn').text('Save').prop('disabled', false);
                 },
                 error: function(xhr, status, error) {
