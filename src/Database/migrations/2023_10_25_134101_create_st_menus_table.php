@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('path')->nullable();
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->tinyInteger('level');
+            $table->string('position', 11)->nullable();
+            $table->string('operations', 1000);
             $table->timestamps();
-
             $table->foreign('parent_id')->references('id')->on('st_menus')->onDelete('cascade');
         });
     }
