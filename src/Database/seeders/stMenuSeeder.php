@@ -20,10 +20,10 @@ class stMenuSeeder extends Seeder
                 'parent_id' => null,
                 'level' => 1,
                 'position' => '1',
-                'operations' => '[{"title":"create","key":"create_key","value":false},{"title":"update","key":"update_key","value":true}]',
+                'operations' => '[{"title":"create","key":"create_key","value":false}',
             ],
             [
-                'id' => 4,
+                'id' => 2,
                 'title' => 'User role',
                 'slug' => 'User role',
                 'icon' => 'User role',
@@ -31,10 +31,10 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '0',
-                'operations' => '[{"title":"create","key":"create_key","value":"true"},{"title":"update","key":"update_key","value":"true"},{"title":"pdf","key":"pdf_key","value":"true"},{"title":"download","key":"download_key","value":"true"},{"title":"excel","key":"excel_key","value":"true"}]',
+                'operations' => '[{"title":"create","key":"create_key","value":false}',
             ],
             [
-                'id' => 6,
+                'id' => 3,
                 'title' => 'Menu manage',
                 'slug' => 'menu-manage',
                 'icon' => 'Menu manage',
@@ -42,10 +42,10 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '1',
-                'operations' => '[{"title":"create","key":"create_key","value":"true"},{"title":"update","key":"update_key","value":"true"}]',
+                'operations' => '[{"title":"create","key":"create_key","value":false}',
             ],
             [
-                'id' => 7,
+                'id' => 4,
                 'title' => 'Menu',
                 'slug' => 'menu-show',
                 'icon' => 'menu-show',
@@ -53,7 +53,7 @@ class stMenuSeeder extends Seeder
                 'parent_id' => 1,
                 'level' => 2,
                 'position' => '2',
-                'operations' => '[{"title":"create","key":"create_key","value":"true"}]',
+                'operations' => '[{"title":"create","key":"create_key","value":false}',
             ]
         ];
         
