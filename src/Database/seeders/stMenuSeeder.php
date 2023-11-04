@@ -1,7 +1,8 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\stMenu; // Replace 'App\Models\Menu' with the actual namespace for your Menu model
+use App\Models\stMenu;
 
 class stMenuSeeder extends Seeder
 {

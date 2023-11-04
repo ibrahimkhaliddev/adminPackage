@@ -9,11 +9,16 @@ class ComposerStaticInit8d6ddd5c7727a1c541dc49d0e45749d6
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
+            'Panelist\\AdminPackage\\Database\\Seeders\\' => 39,
             'Panelist\\AdminPackage\\' => 22,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Panelist\\AdminPackage\\Database\\Seeders\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Database/seeders',
+        ),
         'Panelist\\AdminPackage\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',

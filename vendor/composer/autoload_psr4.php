@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Panelist\\AdminPackage\\Database\\Seeders\\' => array($baseDir . '/src/Database/seeders'),
     'Panelist\\AdminPackage\\' => array($baseDir . '/src'),
 );

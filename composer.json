@@ -2,9 +2,10 @@
     "name": "panelist/admin-package",
     "autoload": {
         "psr-4": {
-            "Panelist\\AdminPackage\\": "src/"
+            "Panelist\\AdminPackage\\": "src/",
+            "Panelist\\AdminPackage\\Database\\Seeders\\": "src/Database/seeders/"
         }
-    },
+    },    
     "authors": [
         {
             "name": "MianIbrahimKhalid",
