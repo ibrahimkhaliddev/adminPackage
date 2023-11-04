@@ -1,4 +1,5 @@
 ## Package Setup
+Install the package by executing the following command:
 ```bash
 composer require panelist/admin-package:dev-main
 ```
