@@ -36,7 +36,7 @@ class MenuController extends Controller
     {
         $userId = $request->input('user_id');
         $selectedMenus = $request->input('menus');
-    
+
         foreach ($selectedMenus as $selectedMenu) {
             $menu = stMenu::find($selectedMenu);
             $userMenu = stUserMenu::updateOrCreate(
@@ -44,15 +44,15 @@ class MenuController extends Controller
                 ['permissions' => $menu->operations, 'is_allowed' => "true"]
             );
         }
-    
+
         stUserMenu::where('user_id', $userId)
             ->whereNotIn('menu_id', $selectedMenus)
             ->update(['is_allowed' => "false"]);
-    
+
         return redirect()->back()->with('success', 'User menus updated successfully');
     }
-    
-    
+
+
 
     public function showUserMenus()
     {
@@ -280,18 +280,20 @@ class MenuController extends Controller
             }
         } else {
             $stMenus = stMenu::all();
-
             foreach ($stMenus as $menu) {
-                $id = $menu->menu_id;
+                $id = $menu->id;
                 $permissions = json_decode($menu->operations, true);
 
-                foreach ($permissions as &$permission) {
-                    $key = $permission['key'];
-                    $data = isset($requestData[$key]) ? $requestData[$key] : [];
+                if ($permissions) {
+                    foreach ($permissions as $key => &$permission) {
+                        $key = $permission['key'];
 
-                    $permission['value'] = in_array($id, $data);
+                        $data = isset($requestData[$key]) ? $requestData[$key] : [];
+                            $permission['value'] = in_array($id, $data);
+                        // dd( $data);
+                    }
                 }
-
+                // dd($permissions);
                 $stMenu = new stUserMenu([
                     'user_id' => $userId,
                     'menu_id' => $menu->id,

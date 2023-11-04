@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('menu_id');
-            $table->string('permissions');
+            $table->string('permissions', 4000);
             $table->string('is_allowed');
             $table->timestamps();
         });

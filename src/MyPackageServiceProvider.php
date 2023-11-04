@@ -33,6 +33,7 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->editMigrations();
         $this->updateUserModel();
         $this->publishRoutes();
+        $this->publishSeeders();
     }
 
     /**
@@ -126,10 +127,7 @@ class MyPackageServiceProvider extends ServiceProvider
     {
         $sourceRoutePath = __DIR__ . '/Routes/adminPackage.php';
         $destinationMigrationPath = base_path('/routes/adminPackage.php');
-        // echo $sourceRoutePath . "\n";
-        // echo $destinationMigrationPath;
         $this->publishFile($sourceRoutePath, $destinationMigrationPath);
-        // echo "done";
         $routePath = base_path('/routes/web.php');
         $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
         $fileContent = file_get_contents($routePath);
@@ -234,6 +232,12 @@ class MyPackageServiceProvider extends ServiceProvider
                 }
             }
         }
+    }
+
+    private function publishSeeders(){
+        $sourceMigrationPath = __DIR__ . '/database/seeders';
+        $destinationMigrationPath = database_path('/seeders');
+        $this->publishFile($sourceMigrationPath, $destinationMigrationPath);
     }
 
     /**
