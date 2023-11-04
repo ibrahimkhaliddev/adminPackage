@@ -4,7 +4,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\stUserMenu;
 
-class stUserMenus extends Seeder
+class stUserMenuSeeder extends Seeder
 {
     public function run()
     {
