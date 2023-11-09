@@ -124,10 +124,6 @@ class MyPackageServiceProvider extends ServiceProvider
 
     private function publishRoutes()
     {
-        $sourceRoutePath = __DIR__ . '/Routes/adminPackage.php';
-        $destinationMigrationPath = base_path('/routes/adminPackage.php');
-        $this->publishFile($sourceRoutePath, $destinationMigrationPath);
-
 
         $routePath = base_path('/routes/web.php');
         $newLine = "require __DIR__.'/adminPackage.php';";
@@ -135,6 +131,13 @@ class MyPackageServiceProvider extends ServiceProvider
         if (strpos($fileContent, $newLine) === false) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
         }
+
+        $sourceRoutePath = __DIR__ . '/Routes/adminPackage.php';
+        $destinationMigrationPath = base_path('/routes/adminPackage.php');
+        $this->publishFile($sourceRoutePath, $destinationMigrationPath);
+
+
+        
     }
 
 
