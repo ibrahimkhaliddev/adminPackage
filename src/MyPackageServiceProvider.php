@@ -135,10 +135,12 @@ class MyPackageServiceProvider extends ServiceProvider
     } catch (Exception \$e) {
     }";
         $fileContent = file_get_contents($routePath);
-        if (strpos($fileContent, $newLine) === false) {
+        $tryCatchExists = strpos($fileContent, 'try {') !== false && strpos($fileContent, 'catch (Exception $e) {') !== false;
+        if (!$tryCatchExists) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
         }
     }
+    
 
     private function publishAssets()
     {
