@@ -30,7 +30,6 @@ class MyPackageServiceProvider extends ServiceProvider
         $this->publishMidlewares();
         $this->publishHelpers();
         $this->publishAssets();
-        // $this->editMigrations();
         $this->updateUserModel();
         $this->publishRoutes();
         $this->publishSeeders();
@@ -128,8 +127,10 @@ class MyPackageServiceProvider extends ServiceProvider
         $sourceRoutePath = __DIR__ . '/Routes/adminPackage.php';
         $destinationMigrationPath = base_path('/routes/adminPackage.php');
         $this->publishFile($sourceRoutePath, $destinationMigrationPath);
+
+
         $routePath = base_path('/routes/web.php');
-        $newLine = "\nrequire __DIR__.'/adminPackage.php';\n";
+        $newLine = "require __DIR__.'/adminPackage.php';";
         $fileContent = file_get_contents($routePath);
         if (strpos($fileContent, $newLine) === false) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
