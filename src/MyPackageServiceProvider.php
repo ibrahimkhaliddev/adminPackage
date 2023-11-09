@@ -130,18 +130,15 @@ class MyPackageServiceProvider extends ServiceProvider
     
         $routePath = base_path('/routes/web.php');
         $newLine = "
-try {
-    include_once __DIR__.'/adminPackage.php';
-} catch (Exception \$e) {
-    // Handle the exception here if needed
-}";
+    try {
+        include_once __DIR__.'/adminPackage.php';
+    } catch (Exception \$e) {
+    }";
         $fileContent = file_get_contents($routePath);
         if (strpos($fileContent, $newLine) === false) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
         }
     }
-    
-
 
     private function publishAssets()
     {
