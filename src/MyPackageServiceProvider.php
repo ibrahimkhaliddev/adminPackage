@@ -130,13 +130,12 @@ class MyPackageServiceProvider extends ServiceProvider
     
         $routePath = base_path('/routes/web.php');
         $newLine = "
-            try {
-                include_once __DIR__.'/adminPackage.php';
-            } catch (Exception \$e) {
-                // Handle the exception here if needed
-            }";
+try {
+    include_once __DIR__.'/adminPackage.php';
+} catch (Exception \$e) {
+    // Handle the exception here if needed
+}";
         $fileContent = file_get_contents($routePath);
-        print_r($fileContent);
         if (strpos($fileContent, $newLine) === false) {
             file_put_contents($routePath, $newLine, FILE_APPEND);
         }
