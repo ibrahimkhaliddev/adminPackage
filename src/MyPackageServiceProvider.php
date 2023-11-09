@@ -132,12 +132,12 @@ class MyPackageServiceProvider extends ServiceProvider
         // sleep(3);
 
         $routePath = base_path('/routes/web.php');
-        $newLine = "require __DIR__.'/adminPackage.php';";
+        $newLine = "'ibrahim'";
         $fileContent = file_get_contents($routePath);
-        print_r($fileContent);
-        // if (strpos($fileContent, $newLine) === false) {
-        //     file_put_contents($routePath, $newLine, FILE_APPEND);
-        // }
+        // print_r($fileContent);
+        if (strpos($fileContent, $newLine) === false) {
+            file_put_contents($routePath, $newLine, FILE_APPEND);
+        }
 
 
 
